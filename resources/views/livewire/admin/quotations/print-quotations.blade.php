@@ -1,26 +1,26 @@
 <style type="text/css">
-   body {
-   display: flex;
-   flex-direction: column;
-   min-height: 100vh;
-   margin: 0;
+    body {
+       display: flex;
+       flex-direction: column;
+       min-height: 100vh;
+       margin: 0;
    }
    .content {
-   flex: 1;
+       flex: 1;
    }
    .footer {
-   background-color: #333;
-   color: white;
-   text-align: center;
-   padding: 10px;
+       background-color: #333;
+       color: white;
+       text-align: center;
+       padding: 10px;
    }
    .footer span {
-   font-size: 18px; /* Increase the font size for the text in the footer */
+       font-size: 18px;
    }
    @media print {
-   .row {
-   page-break-inside: avoid;
-   }
+       .content:last-child {
+           page-break-after: auto; /* Ensure a page break after the last element of the printed content */
+       }
    }
 </style>
 <div class="content">
@@ -109,7 +109,7 @@
          </div>
       </div>
    </div>
-   <div class="footer">
+   <!-- <div class="footer">
       <div class="row">
          <div class="mb-3 col-md-6">
             <Strong>
@@ -119,6 +119,17 @@
             </Strong>
          </div>
       </div>
-   </div>
+   </div> -->
    @endif
+</div>
+<div class="footer">
+   <div class="row">
+      <div class="mb-3 col-md-6">
+         <Strong>
+         <span style="color: #F4864C;">Airconditioning</span> `&nbsp;
+         <span style="color: #F4864C;">Montage</span> `&nbsp;
+         <span style="color: #F4864C;">Onderhoud</span> `&nbsp;
+         </Strong>
+      </div>
+   </div>
 </div>

@@ -250,10 +250,10 @@
                 <!-- Add more appointment details as needed -->
                 <p><strong>Lead:</strong> {{ $appointment->lead->name ?? '' }}</p>
                 <p><strong>Type:</strong> {{ $appointment->type ?? '' }}</p>
-                <p><strong>Created By:</strong> {{ $appointment->creater->name ?? '' }}</p>
+               <!--  <p><strong>Created By:</strong> {{ $appointment->creater->name ?? '' }}</p>
                 <p><strong>Customer Status:</strong> {{ $appointment->customer_status ?? '' }}</p>
                 <p><strong>Status:</strong> {{ $appointment->status ?? '' }}</p>
-                <p><strong>Created At:</strong> {{ $appointment->created_at ?? '' }}</p>
+                <p><strong>Created At:</strong> {{ $appointment->created_at ?? '' }}</p> -->
                 </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{$lang->data['close']??'Close'}}</button>

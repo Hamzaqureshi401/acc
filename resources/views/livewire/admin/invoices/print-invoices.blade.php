@@ -82,7 +82,17 @@
                                     <font class="view-align1">
                                     <font
                                        class="view-f3">
-                                    {{$lang->data['invoice_no'] ?? 'invoice No'}}: {{ $invoice->invoice_number ?? '--'}}</font>
+                                    {{$lang->data['invoice_no'] ?? 'invoice No'}}: 
+
+
+
+                                    {{ $invoice->invoice_number ?? '--'}}
+                                    @if($no == 1)
+                                     -1
+                                     @else
+                                     -2
+                                     @endif
+                                 </font>
                                     </font>
                                     </font><br>
                                  </td>
@@ -97,15 +107,22 @@
             </table>
          </div>
          <div class="row">
-            <span class="text-center">Invoice Upon Delivery {{ '80'}}%</span>
+            <span class="text-center">Invoice Upon Delivery
+             
+               @if($no == 1)
+             {{ $invoice->first_invoice }}
+             @else
+             {{ $invoice->second_invoice }}
+             @endif
+          %</span>
             <table class="table table-striped table-binvoiceed table-sm">
                <thead class="bg-secondary-light">
             
                   <tr class="text-sm">
                      <th>{{$lang->data['sl'] ?? 'Sl'}}</th>
                      <th>{{$lang->data['product_servise'] ?? 'Product/Service'}}</th>
-                     <th class="text-center">{{$lang->data['btw'] ?? 'Btw'}}</th>
-                     <th class="text-center">{{$lang->data['total'] ?? 'Total'}}</th>
+                     <th class="">{{$lang->data['btw'] ?? 'Btw'}}</th>
+                     <th class="text-end">{{$lang->data['total'] ?? 'Total'}}</th>
                   </tr>
                </thead>
                <tbody>
@@ -115,10 +132,10 @@
                      <td>
                         <b> {{ Str::limit($item->product->name,40) }}</b>
                      </td>
-                     <td class="text-center">
+                     <td class="">
                         <span class="px-1">{{ $item->tax }}</span>
                      </td>
-                     <td class="text-center">
+                     <td class="text-end">
                         <span class="px-1">{{ $item->total ?? 0 }}</span>
                      </td>
                   </tr>
@@ -129,19 +146,38 @@
                  
                   @php
                   $total=($invoice->total_amount/100)*$percentage;
+                  $percentage = ($no == 1) ? $invoice->first_invoice : $invoice->second_invoice;
+                  $bill = $invoice->total_amount * ($percentage / 100);
                   @endphp
                   <tr>
+                     <td></td>
                      <td colspan="2" class="text-end"><strong>{{$lang->data['total_amt_exc_val'] ?? 'Total Amt Execl. VAT'}}:</strong></td>
                      <td class="text-end"><strong>{{ getCurrency() }}{{ number_format($invoice->total_amount, 2) }}</strong></td>
                   </tr>
                   <tr>
-                     <td colspan="2" class="text-end"><strong>{{ $lang->data['btw'] ?? $invoice->tax_amount ?? 0 }}:</strong></td>
-                     <td class="text-end"><strong>{{getCurrency()}}{{ number_format($invoice->tax_amount, 2) }}</strong></td>
+                     <td></td>
+                     <td colspan="2" class="text-end"><strong> 'Btw'  @if($no == 1)
+                      {{ $invoice->first_invoice }}
+                      @else
+                      {{ $invoice->second_invoice }}
+                      @endif %:</strong></td>
+                     <td class="text-end"><strong>{{getCurrency()}}{{ number_format(($invoice->tax_amount) , 2)  }}</strong></td>
                   </tr>
                   <hr>
                   <tr>
+                     <td></td>
                      <td colspan="2" class="text-end"><strong>{{$lang->data['total_amt_inc_vat'] ?? 'Total Amt Inc VAT' }}:</strong></td>
-                     <td class="text-end"><strong>{{getCurrency()}}{{ number_format($invoice->total_amount - $invoice->tax_amount, 2) }}</strong></td>
+
+                    <td class="text-end"><strong>{{ getCurrency() . number_format($invoice->total_amount ,2) }}</strong></td>
+                  </tr>
+                  <tr>
+                     <td>Total Amount is {{$invoice->total_amount}} excluding tex and @if($no == 1) 
+                        {{ $invoice->first_invoice }}
+                      @else
+                      {{ $invoice->second_invoice }}
+                      @endif 
+
+                   % of Invoice is {{ $bill }}</td>
                   </tr>
                </tfoot>
             </table>

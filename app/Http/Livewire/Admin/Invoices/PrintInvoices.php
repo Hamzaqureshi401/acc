@@ -35,5 +35,5 @@ class PrintInvoices extends Component
         $this->store_phone = $site['store_phone'] ?? '123456';
         $this->address = $site['address'] ?? '-';
         $this->lang = getTranslation();
-    }
+    } 
 }
