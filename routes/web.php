@@ -53,6 +53,18 @@ Route::group(['prefix' => 'admin/', 'middleware' => ['admin','install']], functi
         Route::get('/customer', \App\Http\Livewire\Admin\Reports\CustomerReport::class)->name('admin.customer_report');
         Route::get('/stock', \App\Http\Livewire\Admin\Reports\StockReport::class)->name('admin.stock');
         Route::get('/low_stock', \App\Http\Livewire\Admin\Reports\LowStockReport::class)->name('admin.low_stock');
+        
+        Route::get('/client-report', \App\Http\Livewire\Admin\Reports\ClientReport::class)->name('client.report');
+
+        Route::get('/appointment-report', \App\Http\Livewire\Admin\Reports\AppointmentReports::class)->name('appointment.report');
+        
+        Route::get('/invoice-payment-pending-report', \App\Http\Livewire\Admin\Reports\InvoicePaymentPendingReport::class)->name('invoice.payment.pending.report');
+        Route::get('/quotation-report', \App\Http\Livewire\Admin\Reports\QuotationReport::class)->name('quotation.report');
+
+        //  Route::get('/client-details/{id}', \App\Http\Livewire\Admin\Reports\ClientReport::class)->name('admin.low_stock');
+
+
+
     });
     Route::group(['prefix' => 'translations/'], function () {
         Route::get('/', \App\Http\Livewire\Admin\Translation\Translations::class)->name('admin.translations');

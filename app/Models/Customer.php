@@ -38,6 +38,6 @@ class Customer extends Model
     }
     public function quotation()
     {
-        return $this->belongsTo(Quotation::class , 'lead_id' , 'lead_id');
+        return $this->hasMany(Quotation::class , 'lead_id' , 'lead_id');
     }
 }

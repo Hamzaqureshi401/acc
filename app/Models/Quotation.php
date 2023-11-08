@@ -32,4 +32,8 @@ class Quotation extends Model
     {
         return $this->belongsTo(Lead::class,'lead_id','id');
     }
+    public function creater()
+    {
+        return $this->belongsTo(User::class , 'created_by');
+    }
 }

@@ -227,6 +227,17 @@
                         <li class="sidebar-item {{ Request::is('admin/reports/sales*') ? 'active' : '' }} "><a class="sidebar-link" href="{{route('admin.sales_report')}}">{{$lang->data['sales_report'] ?? 'Sales Report'}}</a>
                         </li>
                     @endif
+                     <li class="sidebar-item {{ Request::is('admin/reports/client-report*') ? 'active' : '' }} "><a class="sidebar-link" href="{{route('client.report')}}">{{$lang->data['client_report'] ?? 'Client  Report'}}</a>
+                        </li>
+                     <li class="sidebar-item {{ Request::is('quotation-report*') ? 'active' : '' }}">
+                        <a class="sidebar-link" href="{{ route('quotation.report') }}">Quotation Report</a>
+                    </li>
+                    <li class="sidebar-item {{ Request::is('invoice-payment-pending-report*') ? 'active' : '' }}">
+                        <a class="sidebar-link" href="{{ route('invoice.payment.pending.report') }}">Invoice Payment Pending Report</a>
+                    </li>
+                    <li class="sidebar-item {{ Request::is('appointment-report*') ? 'active' : '' }}">
+                        <a class="sidebar-link" href="{{ route('appointment.report') }}">Appointment Report</a>
+                    </li>
                     @if (Auth::user()->can('day_wise_sales_report'))
                         <li class="sidebar-item {{ Request::is('admin/reports/day-wise*') ? 'active' : '' }} "><a class="sidebar-link" href="{{route('admin.daywise_report')}}">{{$lang->data['day_wise_report']??'Day Wise Sales
                                 Report'}}</a></li>
@@ -235,12 +246,12 @@
                         <li class="sidebar-item {{ Request::is('admin/reports/item-sales*') ? 'active' : '' }} "><a class="sidebar-link" href="{{route('admin.item_sales_report')}}">{{$lang->data['item_wise_report']??'Item Wise
                                 Sales Report'}}</a></li>
                     @endif
-                    @if (Auth::user()->can('customer_report'))
+                   <!--  @if (Auth::user()->can('customer_report'))
                         <li class="sidebar-item {{ Request::is('admin/reports/customer*') ? 'active' : '' }} "><a class="sidebar-link" href="{{route('admin.customer_report')}}">{{$lang->data['customer_report']??'Customer Report'}}</a></li>
-                    @endif
-                    @if (Auth::user()->can('stock_report'))
+                    @endif -->
+                   <!--  @if (Auth::user()->can('stock_report'))
                         <li class="sidebar-item {{ Request::is('admin/reports/stock*') ? 'active' : '' }} "><a class="sidebar-link" href="{{route('admin.stock')}}">{{$lang->data['stock_report']??'Stock Report'}}</a></li>
-                    @endif
+                    @endif -->
                     @if (Auth::user()->can('low_stock_report'))
                         <li class="sidebar-item {{ Request::is('admin/reports/low_stock*') ? 'active' : '' }} "><a class="sidebar-link" href="{{route('admin.low_stock')}}">{{$lang->data['low_stock_report']??'Low Stock Report'}}</a></li>
                     @endif
