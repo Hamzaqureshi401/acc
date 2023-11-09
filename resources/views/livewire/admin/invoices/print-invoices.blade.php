@@ -76,7 +76,10 @@
                                     <font class="view-align1">
                                     <font
                                        class="view-f3">
-                                    {{$lang->data['quotation_No'] ?? 'Quotation No'}}: {{ $invoice->customer->quotation->quotation_number ?? '--'}} </font>
+                                    <font class="view-f3">
+   {{$lang->data['quotation_No'] ?? 'Quotation No'}}: {{ optional($invoice->customer->quotation->first())->quotation_number ?? '--'}}
+</font>
+
                                     </font>
                                     </font><br>
                                     <font class="view-align1">
@@ -177,7 +180,7 @@
                       {{ $invoice->second_invoice }}
                       @endif 
 
-                   % of Invoice is {{ $bill }}</td>
+                   % is {{ $bill }}</td>
                   </tr>
                </tfoot>
             </table>
