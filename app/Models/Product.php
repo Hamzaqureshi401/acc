@@ -39,4 +39,8 @@ class Product extends Model
     {
         return $this->hasMany(Addon::class,'product_id','id');
     }
+    public function stock()
+    {
+        return $this->hasMany(Stock::class,'product_id','id');
+    }
 }
