@@ -61,7 +61,24 @@ class StockReportDateWise extends Component
 
     public function filterData($brand_id , $category_id , $client_id , $product_id , $date){
 
-        
+        // Assuming you have variables $brand_id, $category_id, $client_id, $product_id
+
+// Check and set $brand_id
+$brand_id = ($brand_id === 'All') ? null : $brand_id;
+
+// Check and set $category_id
+$category_id = ($category_id === 'All') ? null : $category_id;
+
+// Check and set $client_id
+$client_id = ($client_id === 'All') ? null : $client_id;
+
+// Check and set $product_id
+$product_id = ($product_id === 'All Products') ? null : $product_id;
+
+//dd($brand_id , $category_id , $client_id , $product_id);
+
+// Now $brand_id, $category_id, $client_id, and $product_id are set to empty if their value was "All"
+
        return Stock::with('product', 'invoicedetails.invoice')
         ->when(!empty($brand_id), function ($query) use ($brand_id) {
             $query->whereHas('product', function ($subquery) use ($brand_id) {

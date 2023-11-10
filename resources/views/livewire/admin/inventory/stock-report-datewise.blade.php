@@ -14,7 +14,7 @@
                            <label for="brand">Brand:</label>
                            <select wire:model="supplier_brand_id" id="brand" class="form-control">
                               
-                                <option>All Brands</option>
+                                <option value="All">All Brands</option>
                                 @foreach ($brands as $brand)
                                     <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                                 @endforeach
@@ -26,7 +26,7 @@
                         <div class="form-group">
                             <label for="category">Category:</label>
                             <select wire:model="category_id" id="category" class="form-control">
-                                <option>All Categories</option>
+                                <option value="All">All Categories</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                                 @endforeach
@@ -38,7 +38,7 @@
                         <div class="form-group">
                            <label for="client">Client:</label>
                            <select wire:model="client_id" id="client" class="form-control">
-                              <option>All Client</option>
+                              <option value="All">All Client</option>
                               @foreach ($clients as $item)
                            <option value="{{ $item->id }}">{{ $item->name }}</option>
                            @endforeach
@@ -55,7 +55,7 @@
                      <div class="col-md-2">
                         <label>{{$lang->data['select_product'] ?? 'Select Product'}}</label>
                         <select class="form-select" wire:model="product_id">
-                           <option>{{$lang->data['all_products']??'All Products'}}</option>
+                           <option>{{$lang->data['all_products']?? 'All Products'}}</option>
                            @foreach ($product as $item)
                            <option value="{{ $item->id }}">{{ $item->name }}</option>
                            @endforeach
@@ -87,7 +87,7 @@
                            <th class="tw-25">{{$lang->data['name'] ?? 'Product Name'}}</th>
                            <th class="tw-10">{{$lang->data['quantity'] ?? 'Quantity'}}</th>
                            
-                           <th class="tw-10">{{$lang->data['old_stock'] ?? 'Old Stock'}}</th>
+                           <th class="tw-10">{{$lang->data['old_stock'] ?? 'Total Stock'}}</th>
                            <th class="tw-10">{{$lang->data['sold'] ?? 'Sold'}}</th>
                            <th class="tw-10">{{$lang->data['quantity'] ?? 'Date'}}</th>
                            <!-- <th class="tw-10">{{$lang->data['action'] ?? 'Action'}}</th> -->
@@ -116,4 +116,45 @@
          </div>
       </div>
    </div>
+
+   <div class="card-body p-0">
+               <div class="table-responsive">
+                  <table id="table" class="table table-striped table-sm table-bordered mb-0">
+                     <thead class="bg-secondary-light">
+                        <tr>
+                           <th class="tw-2">{{$lang->data['sl'] ?? 'Sl'}}</th>
+                           <th class="tw-25">{{$lang->data['name'] ?? 'Product'}}</th>
+                           <th class="tw-25">{{$lang->data['name'] ?? 'Customer'}}</th>
+                           <th class="tw-10">{{$lang->data['quantity'] ?? 'Quantity Sold'}}</th>
+                           <th class="tw-10">{{$lang->data['quantity'] ?? 'Date'}}</th>
+
+                           <!-- <th class="tw-10">{{$lang->data['action'] ?? 'Action'}}</th> -->
+                        </tr>
+                     </thead>
+                     <tbody>
+                        @foreach ($data as $item)
+                        @php
+                        $inv =$item->invoicedetails;
+                        @endphp
+                        @foreach($inv as $item2)
+                        
+                        <tr>
+                           <td>{{$loop->index + 1}}</td>
+                           <td>{{$item->product->name}}</td>
+                           <td>{{ $item2->first()->invoice->customer->name }}</td>
+                           
+                           <td>{{ $item->invoicedetails->sum('quantity')}}</td>
+                           <td>{{ $item2->first()->invoice->created_at }}</td>
+                           
+                           <!-- <td><a href="" class="btn btn-success">Show Sold Client Detail</a></td> -->
+                        </tr>
+                        @endforeach
+                        @endforeach
+                     </tbody>
+                  </table>
+                  @if(count($data) == 0)
+                  <x-no-data-component message="{{$lang->data['no_data_found'] ?? 'No data found..'}}" />
+                  @endif
+               </div>
+            </div>
 </div>
