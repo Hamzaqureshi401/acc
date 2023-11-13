@@ -102,7 +102,7 @@
                         </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label">{{$lang->data['end_date']??'Quotation No'}} <span class="text-danger"><strong>*</strong></span></label>
-                            <input type="text" class="form-control" id="inputEmail4" placeholder="{{$lang->data['end_date']??''}}" wire:model="quotation_no" Readonly required>
+                            <input type="text" class="form-control" id="inputEmail4" placeholder="HH:mm" wire:model="quotation_no" Readonly required>
                             @error('quotation_no')
                                 <span class="text-danger">{{$message}}</span>
                             @enderror
@@ -111,14 +111,14 @@
                     <div class="row">
                         <div class="mb-3 col-md-6">
                             <label class="form-label">{{$lang->data['start_time']??'Start Time'}} <span class="text-danger"><strong>*</strong></span></label>
-                            <input type="time" class="form-control" id="inputEmail4" placeholder="{{$lang->data['start_time']??'Start Time'}}" wire:model="start_time">
+                            <input type="text" class="form-control" id="start_time" placeholder="HH:mm" wire:model="start_time">
                             @error('start_time')
                                 <span class="text-danger">{{$message}}</span>
                             @enderror
                         </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label">{{$lang->data['end_time']??'End Time'}} <span class="text-danger"><strong>*</strong></span></label>
-                            <input type="time" class="form-control" id="inputEmail4" placeholder="{{$lang->data['end_time']??'End Time'}}" wire:model="end_time">
+                            <input type="text" class="form-control" id="end_time" placeholder="{{$lang->data['end_time']??'End Time'}}" wire:model="end_time">
                             @error('end_time')
                                 <span class="text-danger">{{$message}}</span>
                             @enderror
@@ -126,8 +126,8 @@
                     </div>
                     <div class="row">
                         <div class="mb-3 col-md-6">
-                            <label class="form-label">{{$lang->data['start_date']??'Start Date'}} <span class="text-danger"><strong>*</strong></span></label>
-                            <input type="date" class="form-control" id="inputEmail4" placeholder="{{$lang->data['start_date']??'Start Date'}}" wire:model="start_date">
+                            <label class="form-label">{{$lang->data['start_date']??'Start Date'}} <span class="text-danger"><strong></strong></span></label>
+                            <input type="date" id="theDate" class="form-control" value="{{ date('Y-m-d') }}" placeholder="{{$lang->data['start_date']??'Start Date'}}" wire:model="start_date">
                             @error('start_date')
                                 <span class="text-danger">{{$message}}</span>
                             @enderror
@@ -143,6 +143,15 @@
                                 <option value="Service">Service</option>
                             </select>
                             @error('type')
+                                <span class="text-danger">{{$message}}</span>
+                            @enderror
+                        </div>
+                    </div>
+                     <div class="row">
+                         <div class="mb-3 col-md-12">
+                            <label class="form-label">{{$lang->data['end_date']??'Custom Note'}} <span class="text-danger"><strong></strong></span></label>
+                            <input type="text" class="form-control" id="custom_note" placeholder="{{$lang->data['custom_note']??'Add Custom Note'}}" wire:model="custom_note">
+                            @error('custom_note')
                                 <span class="text-danger">{{$message}}</span>
                             @enderror
                         </div>

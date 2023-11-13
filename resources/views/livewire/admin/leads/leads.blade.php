@@ -46,7 +46,10 @@
                                 <td>{{$item->postcode}},{{Str::limit($item->address,60)}},{{$item->city}}</td>
                                 <td>
                                 @if ($item->quotation_status==0)
-                                    <a href="{{route('admin.add_quotation')}}" class="btn btn-sm btn-success">{{$lang->data['make_quotation']??'Make Quotation'}}</a>
+                                    <!-- <a href="{{route('admin.add_quotation')}}" class="btn btn-sm btn-success">{{$lang->data['make_quotation']??'Make Quotation'}}</a> -->
+                                    @if(Auth::user()->can('add_appointment'))
+                                            <a href="#" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#MakeAppointment" wire:click="appointment({{$item}})">{{$lang->data['make_appointment']??'Make Appointment'}}</a> 
+                                        @endif
                                 @else
                                     @if($item->appointment_status==0)
                                             
@@ -215,32 +218,37 @@
                         </div>
                     <div class="mb-3 col-md-6">
                             <label class="form-label">{{$lang->data['end_date']??'Quotation No'}} <span class="text-danger"><strong>*</strong></span></label>
-                            <input type="text" class="form-control" id="inputEmail4" placeholder="{{$lang->data['end_date']??''}}" wire:model="quotation_no" Readonly required>
+                            <input type="text" class="form-control" id="inputEmail4" placeholder="{{$lang->data['end_date']??''}}" wire:model="quotation_no">
                             @error('quotation_no')
                                 <span class="text-danger">{{$message}}</span>
                             @enderror
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="mb-3 col-md-6">
-                            <label class="form-label">{{$lang->data['start_time']??'Start Time'}} <span class="text-danger"><strong>*</strong></span></label>
-                            <input type="time" class="form-control" id="inputEmail4" placeholder="{{$lang->data['start_time']??'Start Time'}}" wire:model="start_time">
-                            @error('start_time')
-                                <span class="text-danger">{{$message}}</span>
-                            @enderror
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label class="form-label">{{$lang->data['end_time']??'End Time'}} <span class="text-danger"><strong>*</strong></span></label>
-                            <input type="time" class="form-control" id="inputEmail4" placeholder="{{$lang->data['end_time']??'End Time'}}" wire:model="end_time">
-                            @error('end_time')
-                                <span class="text-danger">{{$message}}</span>
-                            @enderror
-                        </div>
+               <div class="row">
+                    <div class="mb-3 col-md-6">
+                        <label class="form-label">{{$lang->data['start_time']??'Start Time'}} <span class="text-danger"><strong>*</strong></span></label>
+                        <input type="text" class="form-control" id="start_time" placeholder="HH:mm" wire:model="start_time" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]">
+                        @error('start_time')
+                            <span class="text-danger">{{$message}}</span>
+                        @enderror
                     </div>
+                    <div class="mb-3 col-md-6">
+                        <label class="form-label">{{$lang->data['end_time']??'End Time'}} <span class="text-danger"><strong>*</strong></span></label>
+                        <input type="text" class="form-control" id="end_time" placeholder="HH:mm" wire:model="end_time" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]">
+                        @error('end_time')
+                            <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+                </div>
+
+
+
+
+
                     <div class="row">
                         <div class="mb-3 col-md-6">
                             <label class="form-label">{{$lang->data['start_date']??'Start Date'}} <span class="text-danger"><strong>*</strong></span></label>
-                            <input type="date" class="form-control" id="inputEmail4" placeholder="{{$lang->data['start_date']??'Start Date'}}" wire:model="start_date">
+                            <input type="date" class="form-control"  value="{{ date('Y-m-d') }}"  id="theDate" placeholder="{{$lang->data['start_date']??'Start Date'}}" wire:model="start_date">
                             @error('start_date')
                                 <span class="text-danger">{{$message}}</span>
                             @enderror
@@ -259,6 +267,15 @@
                             @enderror
                         </div>
                         
+                    </div>
+                    <div class="row">
+                         <div class="mb-3 col-md-12">
+                            <label class="form-label">{{$lang->data['custom_note']??'Custom Note'}} <span class="text-danger"><strong></strong></span></label>
+                            <input type="text" class="form-control" id="custom_note" placeholder="{{$lang->data['custom_note']??'Add Custom Note'}}" wire:model="custom_note">
+                            @error('custom_note')
+                                <span class="text-danger">{{$message}}</span>
+                            @enderror
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -293,11 +310,11 @@
                     </div>
                     <div class="row">
                         <div class="mb-3 col-md-6">
-                            <label class="form-label">{{$lang->data['start_time']??'Start Time'}} <span class="text-danger"></span></label>
+                            <label class="form-label">{{ $lang->data['start_time']??'Start Time'}} <span class="text-danger"></span></label>
                             <input type="text" class="form-control" id="inputEmail4" placeholder="{{$lang->data['start_time']??'Start Time'}}" wire:model="data_start_time" Readonly>
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label class="form-label">{{$lang->data['end_time']??'End Time'}} <span class="text-danger"></span></label>
+                            <label class="form-label">{{ $lang->data['end_time']??'End Time'}} <span class="text-danger"></span></label>
                             <input type="text" class="form-control" id="inputEmail4" placeholder="{{$lang->data['end_time']??'End Time'}}" wire:model="data_end_time" Readonly>
                         </div>
                     </div>

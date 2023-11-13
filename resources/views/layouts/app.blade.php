@@ -14,6 +14,9 @@
     <link href="{{ asset('/assets/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/css/custom.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/js/toastr.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+
     <link rel="icon" type="image/x-icon" href="{{getFavIcon()}}">
     @stack('css')
     @livewireScripts()
@@ -36,6 +39,7 @@
     <script src="{{ asset('/assets/js/toastr.min.js') }}"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         "use strict"
         Livewire.on('closemodal', () => {
@@ -78,6 +82,16 @@
             });
         });
     </script>
+    <script>
+    flatpickr("#start_time, #end_time", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true
+    });
+   
+     //document.getElementById('inputEmail4').valueAsDate = new Date();
+</script>
     @stack('script')
 </body>
 </html>

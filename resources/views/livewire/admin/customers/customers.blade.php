@@ -19,11 +19,12 @@
                         <thead class="bg-secondary-light">
                             <tr>
                                 <th class="tw-5">{{$lang->data['sl']??'Sl'}}</th>
+                                <th class="tw-5">{{ 'Image' }}</th>
                                 <th class="tw-15">{{$lang->data['name']??'Name'}}</th>
                                 <th class="tw-15">{{$lang->data['phone']??'Phone'}}</th>
                                 <th class="tw-15">{{$lang->data['email']??'Email'}}</th>
                                 <th class="tw-20">{{$lang->data['address']??'Address'}}</th>
-                                <th class="tw-20">{{$lang->data['address']??'Custom Note'}}</th>
+                                <th class="tw-20">{{$lang->data['address']??'Situation Description'}}</th>
                                 <th class="tw-20">{{$lang->data['lead_from']??'Lead From'}}</th>
                                 <th class="tw-10">{{$lang->data['actions']??'Actions'}}</th>
                             </tr>
@@ -32,13 +33,15 @@
                             @foreach ($customers as $item)
                             <tr>
                                 <td>{{$loop->index+1}}</td>
+                                <td><img src="{{ asset($item->situation_image ?? '') }}" alt="Customer Image" width="100" height="100"></td>
                                 <td>{{$item->name}}</td>
                                 <td>{{$item->phone}}</td>
                                  <td>{{$item->email}}</td>
                                 <td>{{$item->postcode}},{{Str::limit($item->address,60)}},{{$item->city}}</td>
-                                <td>{{$item->custom_note}}</td> 
+                                <td>{{$item->customer_note}}</td> 
                                 <td>{{$item->lead->source}}</td> 
                                 <td>
+                                    <a href="#" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#ViewModalCustomer" wire:click='view({{$item}})'>{{$lang->data['view']??'View'}}</a>
                                     @if(Auth::user()->can('edit_customer'))
                                     <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#EditModalCustomer" wire:click='edit({{$item}})'>{{$lang->data['edit']??'Edit'}}</a>
                                     @endif
@@ -142,6 +145,7 @@
                             <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
+                    
                     <div class="mb-3">
                         <label class="form-label" for="inputCity">{{$lang->data['situation_image'] ?? 'Situation Image'}}</label>
                         <input type="file" class="form-control" wire:model="situation_image">
@@ -150,15 +154,75 @@
                         @enderror
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">{{$lang->data['custom_note']??'Custom Notes'}}<span class="text-danger"><strong>*</strong></span></label>
+    <label class="form-label">{{$lang->data['situation_image'] ?? 'Old Situation Description'}}:</label>
+    <img src="{{ asset($situation_image) }}" alt="Situation Image" width="100" height="100">
+</div>
+                    <div class="mb-3">
+                        <label class="form-label">{{$lang->data['customer_note']??'Situation Description'}}<span class="text-danger"><strong>*</strong></span></label>
                         <textarea class="form-control resize-none"  wire:model="customer_note"></textarea>
                        
-                    </div>
+                    </div> 
     
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{$lang->data['close']??'Close'}}</button>
                     <button type="button" class="btn btn-success" wire:click="update">{{$lang->data['save']??'Save'}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div class="modal fade" id="ViewModalCustomer" tabindex="-1" role="dialog" aria-hidden="true" wire:ignore.self>
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{$lang->data['edit_customer']??'View Client'}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    
+    <div class="mb-3 ">
+        <label class="form-label">{{$lang->data['name']??'Name'}}:</label>
+        <span class="text-danger"><strong>{{ $name ??  '--' }}</strong></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">{{$lang->data['phone_number']??'Phone Number'}}:</label>
+        <span class="text-danger"><strong>{{ $phone ??  '--' }}</strong></span>
+    </div>
+
+
+<div class="mb-3">
+    <label class="form-label">{{$lang->data['email']??'Email'}}:</label>
+    <span class="text-danger"><strong>{{ $email ?? '--' }}</strong></span>
+</div>
+
+<div class="mb-3">
+    <label class="form-label">{{$lang->data['postcode']??'PostCode'}}:</label>
+    <span class="text-danger"><strong>{{ $postcode ?? '--' }}</strong></span>
+</div>
+
+<div class="mb-3">
+    <label class="form-label">{{$lang->data['address']??'Address'}}:</label>
+    <span class="text-danger"><strong>{{ $address ?? '--' }}</strong></span>
+</div>
+
+<div class="mb-3">
+    <label class="form-label">{{$lang->data['city']??'City'}}:</label>
+    <span class="text-danger"><strong>{{ $city ?? '--' }}</strong></span>
+</div>
+
+<div class="mb-3">
+    <label class="form-label">{{$lang->data['situation_image'] ?? 'Situation Image'}}:</label>
+    <img src="{{ asset($situation_image) }}" alt="Situation Image" width="100" height="100">
+</div>
+
+<div class="mb-3">
+    <label class="form-label">{{$lang->data['customer_note']??'Situation Description'}}:</label>
+    <span class="text-danger"><strong>{{ $customer_note ?? '--' }}</strong></span>
+</div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{$lang->data['close']??'Close'}}</button>
+                   
                 </div>
             </div>
         </div>

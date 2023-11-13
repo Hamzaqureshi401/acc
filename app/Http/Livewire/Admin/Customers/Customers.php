@@ -62,6 +62,24 @@ class Customers extends Component
         $this->postcode = $customer->postcode;
         $this->address = $customer->address;
         $this->city = $customer->city;
+        $this->customer_note = $customer->customer_note;
+
+        
+    }
+     public function view(Customer $customer)
+    {
+        //$this->resetFields();
+        $this->customer = $customer;
+        $this->name = $customer->name;
+        $this->phone = $customer->phone;
+        $this->email = $customer->email;
+        $this->postcode = $customer->postcode;
+        $this->address = $customer->address;
+        $this->city = $customer->city;
+        $this->customer_note = $customer->customer_note;
+                $this->situation_image = $customer->situation_image;
+
+        
         
     }
     /* update customer data */
@@ -72,6 +90,7 @@ class Customers extends Component
             'phone'  => 'required',
             'email' => 'nullable|email|unique:customers,email,'.$this->customer->id,
         ]);
+        //dd($this->customer_note);
         $customer = $this->customer;
         $customer->name = $this->name;
         $customer->phone = $this->phone;

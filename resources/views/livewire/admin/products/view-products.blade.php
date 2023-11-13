@@ -19,8 +19,8 @@
                     <thead class="bg-secondary-light">
                         <tr>
                             <th class="tw-5">{{$lang->data['sl'] ?? 'Sl'}}</th>
-                            <th class="tw-15">{{$lang->data['name'] ?? 'image'}}</th>
-                            <th class="tw-15">{{$lang->data['name'] ?? 'Name'}}</th>
+                            <!-- <th class="tw-15">{{$lang->data['name'] ?? 'image'}}</th>
+                             --><th class="tw-15">{{$lang->data['name'] ?? 'Name'}}</th>
                             <th class="tw-10">{{$lang->data['price'] ?? 'Price'}}</th>
                             <th class="tw-10">{{$lang->data['category'] ?? 'Brand'}}</th>
                             <th class="tw-10">{{$lang->data['quantity'] ?? 'Quantity'}}</th>
@@ -34,7 +34,7 @@
                         @foreach ($products as $item)
                         <tr>
                             <td>{{$loop->index + 1}}</td>
-                            <td><img src="{{ asset($item->image) }}" alt="Product Image" width="100" height="100"></td>
+                            <!-- <td><img src="{{ asset($item->image) }}" alt="Product Image" width="100" height="100"></td> -->
 
                             <td>{{$item->name}}</td>
                             <td>{{getCurrency()}}{{$item->price}}</td>

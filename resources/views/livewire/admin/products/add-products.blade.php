@@ -35,6 +35,23 @@
                             <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
+
+                    @php
+                    $unit_type = ['Pcs' , 'Per Meter', 'Per AC' , 'Dozen']
+                    @endphp
+
+                     <div class="mb-3 col-md-4">
+                        <label class="form-label">{{$lang->data['unit_type'] ?? 'Unit Type '}}</label>
+                        <select class="form-control" wire:model="unit_type">
+                            <option selected value="">{{$lang->data['choose'] ?? 'Choose...'}}</option>
+                            @foreach ($unit_type as $item)
+                                <option value="{{$item}}">{{$item}}</option>
+                            @endforeach
+                        </select>
+                        @error('category')
+                            <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
                 
                     <div class="mb-3 col-md-4">
                         <label class="form-label" for="inputZip">{{$lang->data['unit'] ?? 'Unit'}} </label>
@@ -44,8 +61,8 @@
                             <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
-                </div>
-                <div class="row">
+               <!--  </div>
+                <div class="row"> -->
                     <div class="mb-3 col-md-4">
                         <label class="form-label">{{$lang->data['category'] ?? 'Category '}}</label>
                         <select class="form-control" wire:model="category">
@@ -58,13 +75,13 @@
                             <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
-                    <div class="mb-3 col-md-4">
+                   <!--  <div class="mb-3 col-md-4">
                         <label class="form-label" for="inputCity">{{$lang->data['image'] ?? 'Image'}}</label>
                         <input type="file" class="form-control" wire:model="image">
                         @error('file')
                             <span class="text-danger">{{$message}}</span>
                         @enderror
-                    </div>
+                    </div> -->
 
                     <div class="mb-3 col-md-4">
                         <label class="form-label" for="inputZip">{{$lang->data['price'] ?? 'Price'}} <span
@@ -74,8 +91,8 @@
                             <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
-                </div>
-                <div class="row">
+              <!--   </div>
+                <div class="row"> -->
                     <div class="mb-3 col-md-4">
                         <label class="form-label">{{$lang->data['supplier'] ?? 'Brand '}}<span class="text-danger"><strong>*</strong></span></label>
                         <select class="form-control" wire:model="supplier">
@@ -88,12 +105,12 @@
                             <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
-                    <div class="mb-3 col-md-4">
+                   <!--  <div class="mb-3 col-md-4">
                         <label class="form-label" for="inputZip">{{$lang->data['cost'] ?? 'Cost'}} 
                                 </label>
                         <input type="number" class="form-control" wire:model="cost">
                  
-                    </div>
+                    </div> -->
 
                     <div class="mb-3 col-md-4">
                         <label class="form-label" for="inputZip">{{$lang->data['quantity_recived'] ?? 'Quantity Recived'}} 

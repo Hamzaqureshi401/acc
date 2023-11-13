@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Appointments extends Component
 {
-    public $appointments,$leads,$description,$appointment,$is_active = true,$lang,$start_time,$end_time,$start_date,$end_date,$lead_id,$lead_name;
+    public $appointments,$leads,$description,$appointment,$is_active = true,$lang,$start_time,$end_time,$start_date,$end_date,$lead_id,$lead_name , $custom_note;
     public $phone,$email,$address,$type;
     /* render the page */
     public function render()
@@ -25,6 +25,8 @@ class Appointments extends Component
     public function mount()
     {
         $this->lang = getTranslation();
+        $this->start_time = date('Y-m-d');
+        
         if(!Auth::user()->can('appointment_list'))
         {
             abort(404);
@@ -35,9 +37,9 @@ class Appointments extends Component
     {
         $this->validate([
             'lead_id'  => 'required',
-            'start_time'  => 'required',
+            // 'start_time'  => 'required',
             'end_time'  => 'required',
-            'start_date'  => 'required',
+            // 'start_date'  => 'required',
             'quotation_no'  => 'required',
             'type'  => 'required',
         ]);
@@ -45,9 +47,11 @@ class Appointments extends Component
         $appointment->lead_id = $this->lead_id;
         $appointment->start_time = $this->start_time;
         $appointment->end_time = $this->end_time;
-        $appointment->start_date = $this->start_date;
+        $appointment->start_date = $this->start_date ?: now()->toDateString();
         $appointment->quotation_no = $this->quotation_no;
         $appointment->type = $this->type;
+        $appointment->custom_note = $this->custom_note;
+        
         $appointment->save();
         Lead::where('id', $appointment->lead_id)->update(['appointment_status' => 1]);
         $this->emit('closemodal');
@@ -64,9 +68,11 @@ class Appointments extends Component
         $this->lead_name = $appointment->lead->name;
         $this->start_time = $appointment->start_time;
         $this->end_time = $appointment->end_time;
-        $this->start_date = $appointment->start_date;
+        $this->start_date = $appointment->start_date ?: now()->toDateString();
+
         $this->quotation_no = $appointment->quotation_no;
         $this->type = $appointment->type;
+        $this->custom_note = $appointment->custom_note;
     }
     /* update customer data */
     public function update()
@@ -81,9 +87,10 @@ class Appointments extends Component
         $appointment = $this->appointment;
         $appointment->start_time = $this->start_time;
         $appointment->end_time = $this->end_time;
-        $appointment->start_date = $this->start_date;
+        $appointment->start_date = $this->start_date ?: now()->toDateString();
         $appointment->quotation_no = $this->quotation_no;
         $appointment->type = $this->type;
+        $appointment->custom_note = $this->custom_note;
         $appointment->save();
         $this->emit('closemodal');
         $this->resetFields();

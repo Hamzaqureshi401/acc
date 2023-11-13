@@ -50,7 +50,7 @@
                 <div class="row">
                     <div class="mb-3 col-md-4">
                         <label class="form-label" for="inputCity">{{$lang->data['date_created'] ?? 'Date Created'}}</label>
-                        <input type="date" class="form-control" wire:model="created_date">
+                        <input type="date" class="form-control" value="{{ date('Y-m-d') }}" wire:model="created_date">
                         @error('created_date')
                             <span class="text-danger">{{$message}}</span>
                         @enderror
@@ -66,11 +66,10 @@
                         <label class="form-label">{{$lang->data['stage'] ?? 'Stage '}}</label>
                         <select class="form-control" wire:model="stage">
                             <option selected value="">{{$lang->data['choose'] ?? 'Choose...'}}</option>
-                            <option  value="Draft">Draft</option>
-                            <option value="Delivered">Delivered</option>
+                            <option  value="Sent">Sent</option>
+                            <option value="Decline">Decline</option>
                             <option value="Accepted">Accepted</option>
-                            <option value="Lost">Lost</option>
-                            <option value="Dead">Dead</option>
+                            
                         </select>
                         @error('stage')
                             <span class="text-danger">{{$message}}</span>
@@ -86,13 +85,14 @@
                             <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
-                    <div class="mb-3 col-md-4">
+                   <!--  <div class="mb-3 col-md-4">
                         <label class="form-label" for="inputCity">{{$lang->data['discount'] ?? 'Discount %'}}</label>
                         <input type="text" class="form-control" wire:model="discount">
                         @error('discount')
                             <span class="text-danger">{{$message}}</span>
                         @enderror
-                    </div>
+                    </div> -->
+
                 </div>
                 
                 <br>

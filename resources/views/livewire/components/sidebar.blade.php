@@ -92,13 +92,7 @@
                 </li>
 
                 @endif             
-                  @if (Auth::user()->can('quotation_list'))
-                    <li class="sidebar-item {{ Request::is('admin/quotations*') ? 'active' : '' }}">
-                        <a class="sidebar-link" href="{{ route('admin.view_quotations') }}">
-                        <i class="align-middle" data-feather="check-circle"></i> <span class="align-middle">{{$lang->data['quotations']??'Quotations'}}</span>
-                        </a>
-                    </li>
-                @endif 
+                 
               
               
                 @if (Auth::user()->can('appointment_list'))
@@ -112,6 +106,13 @@
                     <li class="sidebar-item {{ Request::is('admin/calender*') ? 'active' : '' }}">
                         <a class="sidebar-link" href="{{ route('admin.calender') }}">
                         <i class="align-middle" data-feather="user"></i> <span class="align-middle">{{$lang->data['calender']??'Calender'}}</span>
+                        </a>
+                    </li>
+                @endif 
+                 @if (Auth::user()->can('quotation_list'))
+                    <li class="sidebar-item {{ Request::is('admin/quotations*') ? 'active' : '' }}">
+                        <a class="sidebar-link" href="{{ route('admin.view_quotations') }}">
+                        <i class="align-middle" data-feather="check-circle"></i> <span class="align-middle">{{$lang->data['quotations']??'Quotations'}}</span>
                         </a>
                     </li>
                 @endif 

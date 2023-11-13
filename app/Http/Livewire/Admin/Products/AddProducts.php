@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 class AddProducts extends Component
 {
     use WithFileUploads;
-    public $code,$name,$category,$categories,$suppliers,$image,$price,$unit,$supplier,$cost,$quantity,$quantity_alert,$loyalty_points=0,$description,$is_veg=0,$is_active=1,$lang;
+    public $code,$name,$category,$categories,$suppliers,$image,$price,$unit, $unit_type,$supplier,$cost,$quantity,$quantity_alert,$loyalty_points=0,$description,$is_veg=0,$is_active=1,$lang;
     /* render the page */
     public function render()
     {
@@ -41,7 +41,8 @@ class AddProducts extends Component
             'price' => 'required',
             'unit' => 'required',
             'supplier' => 'required',
-            'cost' => 'required',
+            // 'cost' => 'required',
+            'unit_type' => 'required',
             'quantity' => 'required',
             'quantity_alert' => 'required',
                     ]);
@@ -57,6 +58,7 @@ class AddProducts extends Component
         $product->description = $this->description;
         $product->loyalty_points =$this->loyalty_points;
         $product->unit =$this->unit;
+        $product->unit_type =$this->unit_type;
         $product->is_veg = $this->is_veg;
         $product->is_active = $this->is_active;
        

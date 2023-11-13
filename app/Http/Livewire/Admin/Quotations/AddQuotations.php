@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AddQuotations extends Component
 {
-    public $leads,$products,$product_id,$product_name,$productPrice,$productQuantity,$total,$tax,$sales_tax,$total_tax=0,$lang,$available,$quantity,$customer,$selected_products=[],$productdescription;
+    public $leads,$products,$product_id,$product_name,$productPrice,$productQuantity,$total,$tax,$sales_tax = 21,$total_tax=0,$lang,$available,$quantity,$customer,$selected_products=[],$productdescription;
     public $subject,$created_date,$expiry_date, $phone,$email,$customer_id,$lead_id,$address,$stage,$discount,$description,$customer_note,$totalTax,$totalDiscount,$totalAmount,$subAmount;
     /* render the page */
     public function render()
@@ -26,6 +26,8 @@ class AddQuotations extends Component
     /* process before render */
     public function mount()
     {
+        $this->created_date = date('Y-m-d');
+        $this->expiry_date = date('Y-m-d', strtotime('+15 days'));
         $this->lang = getTranslation();
         if(!Auth::user()->can('quotation_list'))
         {
@@ -135,7 +137,7 @@ class AddQuotations extends Component
     public function create(){
         $this->validate([
             'lead_id'  => 'required',
-            'created_date'  => 'required',
+            // 'created_date'  => 'required',
             'expiry_date'  => 'required',
             'stage'  => 'required',
             'phone'  => 'numeric',
@@ -156,13 +158,13 @@ class AddQuotations extends Component
 
         $quotation = new Quotation();
         $quotation->quotation_number=date("His");
-        $quotation->created_date=$this->created_date;
+        $quotation->created_date=$this->created_date ?: now()->toDateString();
         $quotation->expiry_date=$this->expiry_date;
         $quotation->lead_id=$this->lead_id;
         $quotation->address=$this->address;
         $quotation->stage=$this->stage;
         $quotation->sales_tax=$this->sales_tax;
-        $quotation->discount=$this->discount;
+        // $quotation->discount=$this->discount;
         $quotation->sub_total=$this->subAmount;
         $quotation->discount_amount=$this->totalDiscount;
         $quotation->tax_amount=$this->totalTax;

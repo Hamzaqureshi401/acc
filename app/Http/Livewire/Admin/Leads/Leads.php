@@ -8,6 +8,7 @@ use App\Models\Quotation;
 use App\Models\Appointment;
 use Illuminate\Support\Facades\Auth;
 
+
 class Leads extends Component
 {
     public $leads,$name,$description,$lead,$is_active = true,$lang,$start_time,$end_time,$start_date,$end_date,$lead_id;
@@ -22,6 +23,7 @@ class Leads extends Component
     public function mount()
     {
         $this->lang = getTranslation();
+        $this->start_time = date('Y-m-d');
         if(!Auth::user()->can('leads_list'))
         {
             abort(404);
@@ -136,15 +138,15 @@ class Leads extends Component
         $this->validate([
             'start_time'  => 'required',
             'end_time'  => 'required',
-            'start_date'  => 'required',
-            'quotation_no'  => 'required',
+            // 'start_date'  => 'required',
+            // 'quotation_no'  => 'required',
             'type'  => 'required',
         ]);
         $appointment = new Appointment();
         $appointment->lead_id=$this->lead_id;
         $appointment->start_time=$this->start_time;
         $appointment->end_time=$this->end_time;
-        $appointment->start_date=$this->start_date;
+        $appointment->start_date=$this->start_date ?: now()->toDateString();
         $appointment->quotation_no=$this->quotation_no;
         $appointment->type=$this->type;
         $appointment->save();
