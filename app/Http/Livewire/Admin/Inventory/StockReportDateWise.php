@@ -79,29 +79,32 @@ $product_id = ($product_id === 'All Products') ? null : $product_id;
 
 // Now $brand_id, $category_id, $client_id, and $product_id are set to empty if their value was "All"
 
-       return Stock::with('product', 'invoicedetails.invoice')
-        ->when(!empty($brand_id), function ($query) use ($brand_id) {
-            $query->whereHas('product', function ($subquery) use ($brand_id) {
-                $subquery->where('supplier_id', $brand_id); // Filter by supplier_id
-            });
-        })
-        ->when(!empty($category_id), function ($query) use ($category_id) {
-            $query->whereHas('product', function ($subquery) use ($category_id) {
-                $subquery->where('category_id', $category_id); // Filter by category_id
-            });
-        })
-        ->when(!empty($client_id), function ($query) use ($client_id) {
-            $query->whereHas('invoicedetails.invoice', function ($subquery) use ($client_id) {
-                $subquery->where('customer_id', $client_id); // Filter by customer_id
-            });
-        })
-        ->when(!empty($product_id), function ($query) use ($product_id) {
-            $query->where('product_id', $product_id); // Filter by product_id
-        })
-        ->when(!empty($date), function ($query) use ($date) {
-            $query->whereDate('created_at', $date); // Filter by product_id
-        })
-        ->get();
+      return Stock::select('product_id', DB::raw('SUM(quantity) as total_quantity'))
+    ->with('product', 'invoicedetails.invoice')
+    ->when(!empty($brand_id), function ($query) use ($brand_id) {
+        $query->whereHas('product', function ($subquery) use ($brand_id) {
+            $subquery->where('supplier_id', $brand_id);
+        });
+    })
+    ->when(!empty($category_id), function ($query) use ($category_id) {
+        $query->whereHas('product', function ($subquery) use ($category_id) {
+            $subquery->where('category_id', $category_id);
+        });
+    })
+    ->when(!empty($client_id), function ($query) use ($client_id) {
+        $query->whereHas('invoicedetails.invoice', function ($subquery) use ($client_id) {
+            $subquery->where('customer_id', $client_id);
+        });
+    })
+    ->when(!empty($product_id), function ($query) use ($product_id) {
+        $query->where('product_id', $product_id);
+    })
+    ->when(!empty($date), function ($query) use ($date) {
+        $query->whereDate('created_at', $date);
+    })
+    ->groupBy('product_id')
+    ->get();
+
 
     }
 

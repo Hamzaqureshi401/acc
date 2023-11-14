@@ -12,7 +12,7 @@
                      <div class="col-md-2">
                         <div class="form-group">
                            <label for="brand">Brand:</label>
-                           <select wire:model="supplier_brand_id" id="brand" class="form-control">
+                           <select wire:model.lazy="supplier_brand_id" id="brand" class="form-control">
                               
                                 <option value="All">All Brands</option>
                                 @foreach ($brands as $brand)
@@ -25,7 +25,7 @@
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for="category">Category:</label>
-                            <select wire:model="category_id" id="category" class="form-control">
+                            <select wire:model.lazy="category_id" id="category" class="form-control">
                                 <option value="All">All Categories</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -37,7 +37,7 @@
                      <div class="col-md-2">
                         <div class="form-group">
                            <label for="client">Client:</label>
-                           <select wire:model="client_id" id="client" class="form-control">
+                           <select wire:model.lazy="client_id" id="client" class="form-control">
                               <option value="All">All Client</option>
                               @foreach ($clients as $item)
                            <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -49,12 +49,12 @@
                      <div class="col-md-2">
                         <div class="form-group">
                            <label for="date">Date:</label>
-                           <input type="date" wire:model="date" id="date" class="form-control">
+                           <input type="date" wire:model.lazy="date" id="date" class="form-control">
                         </div>
                      </div>
                      <div class="col-md-2">
                         <label>{{$lang->data['select_product'] ?? 'Select Product'}}</label>
-                        <select class="form-select" wire:model="product_id">
+                        <select class="form-select" wire:model.lazy="product_id">
                            <option>{{$lang->data['all_products']?? 'All Products'}}</option>
                            @foreach ($product as $item)
                            <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -97,10 +97,10 @@
                         @foreach ($data as $item)
                         <tr>
                            <td>{{$loop->index + 1}}</td>
-                           <td>{{$item->product->name}}</td>
-                           <td>{{$item->quantity}}/{{$item->product->unit}}</td>
+                           <td>{{$item->product->name ?? '--'}}</td>
+                           <td>{{$item->total_quantity}}/{{$item->product->unit ?? '--'}}</td>
                            
-                           <td>{{ $item->product->quantity}}</td>
+                           <td>{{ $item->product->quantity ?? '--'}}</td>
                            <td>{{ $item->invoicedetails->sum('quantity')}}</td>
                            <td>{{$item->created_at}}</td>
                            <!-- <td><a href="" class="btn btn-success">Show Sold Client Detail</a></td> -->
@@ -134,7 +134,7 @@
                      <tbody>
                         @foreach ($data as $item)
                         @php
-                        $inv =$item->invoicedetails;
+                        $inv =$item->invoicedetails->groupBy('product_id');
                         @endphp
                         @foreach($inv as $item2)
                         
