@@ -29,6 +29,7 @@ class AddInvoices extends Component
     /* process before render */
     public function mount()
     {
+
         $this->lang = getTranslation();
         if(!Auth::user()->can('invoice_list'))
         {
@@ -51,6 +52,7 @@ class AddInvoices extends Component
         $this->totalAmount=$quotation->total_amount;
         $this->description=$quotation->description;
         $this->customer_note=$quotation->customer_note;
+        $this->first_due_date = date('Y-m-d', strtotime('+5 days'));
         $selected=$quotation->details;
         $customer = Customer::where('lead_id', $quotation->lead_id)->first();
         if($customer!=null){

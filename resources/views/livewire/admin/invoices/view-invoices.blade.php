@@ -24,7 +24,8 @@
                             <th class="tw-10">{{$lang->data['address'] ?? 'Address'}}</th>
                             <th class="tw-10">{{$lang->data['date'] ?? 'Date'}}</th>
                             <th class="tw-10">{{$lang->data['total_amount'] ?? 'Total Amount'}}</th>
-                            <th class="tw-15">{{$lang->data['pay'] ?? 'Pay'}}</th>
+                            <th class="tw-15">{{$lang->data['pay'] ?? 'Invoice 1'}}</th>
+                            <th class="tw-15">{{$lang->data['pay'] ?? 'Invoice 2'}}</th>
                             <th class="tw-15">{{$lang->data['actions'] ?? 'Actions'}}</th>
                         </tr>
                     </thead>
@@ -40,6 +41,7 @@
                             <td>
                                 @if(Auth::user()->can('invoice_list'))
                                     @if($item->first_invoice==100)
+                                     <a href="{{ url('/admin/invoices/print/'.$item->id.'/1'.'/'.$item->first_invoice.'/0') }}" class="btn btn-sm btn-success">{{$lang->data['print_invoice'] ?? 'Print invoice'}}</a>
                                         @if($item->first_invoice_amount==$item->first_invoice_paid)
                                             <a href="#" class="btn btn-sm btn-success">{{$lang->data['pay_invoice'] ?? 'Invoice Paid'}}</a>
                                         @else
@@ -48,11 +50,23 @@
                                     @endif
 
                                     @if($item->first_invoice<100)
+                                     <a href="{{ url('/admin/invoices/print/'.$item->id.'/1'.'/'.$item->first_invoice.'/1') }}" class="btn btn-sm btn-success">{{$lang->data['print_invoice'] ?? 'Print invoice'.$item->invoice_number.'-1'}}</a>
                                         @if($item->first_invoice_amount==$item->first_invoice_paid)
                                             <a href="#" class="btn btn-sm btn-success">{{$lang->data['pay_invoice'] ?? 'First Invoice Paid'}}</a>
                                         @else
                                             <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#Modalpayment" wire:click='payment({{$item}},1)'>{{$lang->data['pay_invoice'] ?? 'Pay invoice'.$item->invoice_number.'-1'}}<br>{{$lang->data['first_due_date'] ?? 'Due Date:'.$item->first_due_date}}</a>
                                         @endif
+                                       
+                                    @endif
+                                @endif
+                            </td>
+                            <td>
+                                @if(Auth::user()->can('invoice_list'))
+                                    @if($item->first_invoice<100)
+                                      @php
+                                            $per=100-$item->first_invoice;
+                                        @endphp
+                                        <a href="{{ url('/admin/invoices/print/'.$item->id.'/1'.'/'.$per.'/2') }}" class="btn btn-sm btn-success">{{$lang->data['print_invoice'] ?? 'Print invoice'.$item->invoice_number.'-2'}}</a>
                                         @if($item->second_invoice_amount==$item->second_invoice_paid)
                                             <a href="#" class="btn btn-sm btn-success">{{$lang->data['pay_invoice'] ?? 'Second Invoice Paid'}}</a>
                                         @else
@@ -65,18 +79,10 @@
                             <td>
                                 
                                 @if(Auth::user()->can('invoice_list'))
-                                    @if($item->first_invoice==100)
-                                        <a href="{{ url('/admin/invoices/print/'.$item->id.'/1'.'/'.$item->first_invoice.'/0') }}" class="btn btn-sm btn-success">{{$lang->data['print_invoice'] ?? 'Print invoice'}}</a>
-                                    @endif
+                                   
 
-                                    @if($item->first_invoice<100)
-                                        <a href="{{ url('/admin/invoices/print/'.$item->id.'/1'.'/'.$item->first_invoice.'/1') }}" class="btn btn-sm btn-success">{{$lang->data['print_invoice'] ?? 'Print invoice'.$item->invoice_number.'-1'}}</a>
-                                        @php
-                                            $per=100-$item->first_invoice;
-                                        @endphp
-                                        <a href="{{ url('/admin/invoices/print/'.$item->id.'/1'.'/'.$per.'/2') }}" class="btn btn-sm btn-success">{{$lang->data['print_invoice'] ?? 'Print invoice'.$item->invoice_number.'-2'}}</a>
-                                    @endif
-                                @endif
+                                 
+                                
                                     
 
                                 @if(Auth::user()->can('edit_invoice'))
@@ -85,6 +91,8 @@
 
                                 @if(Auth::user()->can('delete_invoice'))
                                 <a href="#" class="btn btn-sm btn-danger" wire:click="delete({{$item}})">{{$lang->data['delete'] ?? 'Delete'}}</a>
+                                @endif
+
                                 @endif
 
                             </td>

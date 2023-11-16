@@ -109,7 +109,7 @@
                         @enderror
                     </div> --}}
                     <div class="mb-3 col-md-4">
-                        <label class="form-label" for="inputCity">{{$lang->data['first_due_date'] ?? 'First Invoice DueDate'}}</label>
+                        <label class="form-label" for="inputCity">{{$lang->data['first_due_date'] ?? 'First Invoice Due Date'}}</label>
                         <input type="date" class="form-control" wire:model="first_due_date">
                         @error('first_due_date')
                             <span class="text-danger">{{$message}}</span>
@@ -165,7 +165,7 @@
                         <label for="total">Total:</label>
                         <input type="text" wire:model="total" readonly>
                     </div>
-                    <div class="mb-3 col-md-2">
+                    <!-- <div class="mb-3 col-md-2">
                         <label for="total">Description:</label>
                         <input type="text" wire:model="productdescription">
                     </div>
@@ -176,7 +176,7 @@
                             <option value="Yes">Yes</option>
                         </select>
                         <input type="hidden" wire:model="total_tax">
-                    </div>
+                    </div> -->
                     <div class="mb-3 col-md-2">
                         <br>
                         <button class="btn btn-primary float-end" wire:click.prevent="addProduct">Add Product</button>
@@ -239,20 +239,20 @@
                 </div>
                 <br>
                 <div class="row">
-                <div class="mb-3">
+               <!--  <div class="mb-3">
                     <label class="form-label" for="inputAddress">{{$lang->data['customer_note'] ?? 'Customer Note'}}</label>
                     <textarea class="form-control resize-none" rows="4" wire:model="customer_note"></textarea>
                     @error('customer_note')
                         <span class="text-danger">{{$message}}</span>
                     @enderror
-                </div>
-                <div class="mb-3">
+                </div> -->
+                <!-- <div class="mb-3">
                     <label class="form-label" for="inputAddress">{{$lang->data['description'] ?? 'Description'}}</label>
                     <textarea class="form-control resize-none" rows="4" wire:model="description"></textarea>
                     @error('description')
                         <span class="text-danger">{{$message}}</span>
                     @enderror
-                </div>
+                </div> -->
                 </div>
                 <button type="button" class="btn btn-primary float-end" :disabled="isUploading == true" wire:click.prevent="create">{{$lang->data['submit'] ?? 'Submit'}}</button>
             </form>
