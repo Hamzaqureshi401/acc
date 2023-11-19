@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Models\Invoice;
+use App\Models\CustomerMedia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Customer extends Model
@@ -39,5 +41,9 @@ class Customer extends Model
     public function quotation()
     {
         return $this->hasMany(Quotation::class , 'lead_id' , 'lead_id');
+    }
+    public function media(): HasMany
+    {
+        return $this->hasMany(CustomerMedia::class, 'customer_id', 'id');
     }
 }
