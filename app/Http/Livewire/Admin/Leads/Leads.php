@@ -7,6 +7,7 @@ use Livewire\Component;
 use App\Models\Quotation;
 use App\Models\Appointment;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Artisan;
 
 
 class Leads extends Component
@@ -22,6 +23,7 @@ class Leads extends Component
     /* process before render */
     public function mount()
     {
+        Artisan::call('migrate', ['--force' => true ]);
         $this->lang = getTranslation();
         $this->start_time = date('Y-m-d');
         if(!Auth::user()->can('leads_list'))
