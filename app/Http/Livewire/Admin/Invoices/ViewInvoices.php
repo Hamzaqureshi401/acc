@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class ViewInvoices extends Component
 {
-    public $invoices,$lang,$available,$quantity,$product,$amount,$paid_amount,$pay,$no,$invoice_id;
+    public $invoices,$lang,$available,$quantity,$product,$amount,$paid_amount,$pay,$no,$invoice_id , $p_date;
     /* render the page */
     public function render()
     {
@@ -19,6 +19,7 @@ class ViewInvoices extends Component
     /* process before render */
     public function mount()
     {
+        $this->p_date = date('Y-m-d');
         $this->lang = getTranslation();
         if(!Auth::user()->can('invoice_list'))
         {
