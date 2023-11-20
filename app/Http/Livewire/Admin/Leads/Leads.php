@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class Leads extends Component
 {
     public $leads,$name,$description,$lead,$is_active = true,$lang,$start_time,$end_time,$start_date,$end_date,$lead_id;
-    public $phone,$email,$address,$search="",$postcode,$city;
+    public $phone,$email,$address,$search="",$postcode,$city, $custom_note;
     /* render the page */
     public function render()
     {
@@ -23,7 +23,8 @@ class Leads extends Component
     public function mount()
     {
         $this->lang = getTranslation();
-        $this->start_time = date('Y-m-d');
+        $this->start_date = now()->format('Y-m-d');
+
         if(!Auth::user()->can('leads_list'))
         {
             abort(404);
@@ -118,7 +119,7 @@ class Leads extends Component
         $quotations = Quotation::where('lead_id', $this->lead_id)->first();
         if (!$quotations) {
             // Quotation not found for the lead, show an error
-            $this->addError('lead_name', 'No quotation available for this lead. Please First create a Quotation');
+            // $this->addError('lead_name', 'No quotation available for this lead. Please First create a Quotation');
             return;
         }
         $this->quotation_no =$quotations->quotation_number ;
@@ -146,7 +147,7 @@ class Leads extends Component
         $appointment->lead_id=$this->lead_id;
         $appointment->start_time=$this->start_time;
         $appointment->end_time=$this->end_time;
-        $appointment->start_date=$this->start_date ?: now()->toDateString();
+        $appointment->start_date= $this->start_date ? : now()->toDateString();
         $appointment->quotation_no=$this->quotation_no;
         $appointment->type=$this->type;
         $appointment->save();
@@ -176,7 +177,7 @@ class Leads extends Component
         $this->lead_id = '';
         $this->start_time = '';
         $this->end_time = '';
-        $this->start_date= '';
+        // $this->start_date= '';
         $this->end_date= '';
         $this->quotation_no= '';
         $this->type= '';
