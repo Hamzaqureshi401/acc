@@ -20,11 +20,7 @@ class Customers extends Component
     public $phone, $email, $address, $postcode, $city, $situation_image, $customer_note,  $situation_images = [], $old_situation_images = [];
     protected $listeners = ['imageDeleted' => 'refreshOldImages'];
 
-<<<<<<< HEAD
     
-=======
-
->>>>>>> 6d890d32a5ce47d6e78c854a3724692bf7b1d0f1
     /* render the page */
     public function render()
     {
@@ -68,37 +64,22 @@ class Customers extends Component
     {
         // Get the image path from the array
         $imagePath = $this->situation_images[$index];
-<<<<<<< HEAD
     
-=======
-
->>>>>>> 6d890d32a5ce47d6e78c854a3724692bf7b1d0f1
         // Optionally, delete the image file from storage
         if (is_string($imagePath)) {
             // Delete the file from storage
             Storage::delete($imagePath);
-<<<<<<< HEAD
     
-=======
-
->>>>>>> 6d890d32a5ce47d6e78c854a3724692bf7b1d0f1
             // Delete the image record from the database
             $customerMedia = CustomerMedia::where('situation_image', $imagePath)->first();
             if ($customerMedia) {
                 $customerMedia->delete();
             }
         }
-<<<<<<< HEAD
     
         unset($this->situation_images[$index]);
         $this->situation_images = array_values($this->situation_images);
     
-=======
-
-        unset($this->situation_images[$index]);
-        $this->situation_images = array_values($this->situation_images);
-
->>>>>>> 6d890d32a5ce47d6e78c854a3724692bf7b1d0f1
         // Emit an event to trigger a refresh when an image is deleted
         $this->emit('imageDeleted');
     }
@@ -116,7 +97,6 @@ class Customers extends Component
         $this->city = $customer->city;
         $this->customer_note = $customer->customer_note;
         $customerMedia = $customer->media;
-<<<<<<< HEAD
 
         // Map media to an array of URLs
         $this->situation_images = $customerMedia->map(function ($media) {
@@ -127,18 +107,6 @@ class Customers extends Component
             return $media->situation_image;
         })->toArray();
     
-=======
-
-        // Map media to an array of URLs
-        $this->situation_images = $customerMedia->map(function ($media) {
-            return $media->situation_image;
-        })->toArray();
-
-        $this->old_situation_images = $customer->media->map(function ($media) {
-            return $media->situation_image;
-        })->toArray();
-
->>>>>>> 6d890d32a5ce47d6e78c854a3724692bf7b1d0f1
     }
     public function view(Customer $customer)
     {
@@ -232,19 +200,10 @@ class Customers extends Component
         $this->resetErrorBag();
     }
     public function refreshOldImages()
-<<<<<<< HEAD
 {
     // Fetch the updated data or perform any necessary operations
     $this->old_situation_images = $this->customer->media->map(function ($media) {
         return $media->situation_image;
     })->toArray();
 }
-=======
-    {
-        // Fetch the updated data or perform any necessary operations
-        $this->old_situation_images = $this->customer->media->map(function ($media) {
-            return $media->situation_image;
-        })->toArray();
-    }
->>>>>>> 6d890d32a5ce47d6e78c854a3724692bf7b1d0f1
 }
