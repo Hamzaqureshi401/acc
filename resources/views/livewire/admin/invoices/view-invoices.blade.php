@@ -150,22 +150,3 @@
 </div>
 
 </div>
-                    </div>
-                    <div class="mb-3 col-md-6">
-                        <label class="form-label">{{$lang->data['pay']??'Pay'}} <span class="text-danger"><strong>*</strong></span></label>
-                        <input type="text" class="form-control" id="inputEmail4" placeholder="{{$lang->data['pay']??''}}" wire:model="pay">
-                        @error('pay')
-                            <span class="text-danger">{{$message}}</span>
-                        @enderror
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{$lang->data['close']??'Close'}}</button>
-                <button type="button" class="btn btn-success" wire:click="savepayment">{{$lang->data['save']??'Save'}}</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-</div>

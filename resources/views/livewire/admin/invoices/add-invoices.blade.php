@@ -24,7 +24,8 @@
                         <select class="form-control" wire:change="selectQuotation" wire:model="quotation_id">
                             <option selected value="">{{$lang->data['choose'] ?? 'Choose...'}}</option>
                             @foreach ($quotations as $item)
-                                @if($item->lead->appointments->customer_status==1)
+                            
+                                @if(!empty($item->lead->appointments) && $item->lead->appointments->customer_status==1)
                                 <option value="{{$item->id}}">{{$item->quotation_number}}({{$item->customer->name}})</option>
                                 @endif
                             @endforeach
