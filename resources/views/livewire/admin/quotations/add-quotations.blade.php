@@ -79,7 +79,7 @@
                 </div>
                 <div class="row">
                     <div class="mb-3 col-md-4">
-                        <label class="form-label" for="inputCity">{{$lang->data['sales_tax'] ?? 'Sales Tax %'}}</label>
+                        <label class="form-label"for="inputCity">{{$lang->data['sales_tax'] ?? 'BTW'}}</label>
                         <input type="text" class="form-control" wire:model="sales_tax">
                         @error('sales_tax')
                             <span class="text-danger">{{$message}}</span>
@@ -126,15 +126,16 @@
                         <label for="total">Description:</label>
                         <input type="text" wire:model="productdescription">
                     </div>
-                    <div class="mb-3 col-md-1">
+                    {{-- <div class="mb-3 col-md-1">
                         <label for="tax">Tax:</label>
                         <select class="form-control" wire:change="calculate" wire:model="tax">
                             <option value="No">No</option>
                             <option value="Yes">Yes</option>
                         </select>
-                        <input type="hidden" wire:model="total_tax">
-                    </div>
-                    <div class="mb-3 col-md-1">
+                    </div> --}}
+                    <input type="hidden" wire:model="total_tax">
+                    <input type="hidden" wire:model="tax" value="yes">
+                    <div class="mt-3 col-md-2">
                         <button class="btn btn-primary float-end" wire:click.prevent="addProduct">Add Product</button>
                     </div>
                 </div>
@@ -168,7 +169,7 @@
                         <tfoot>
                             <tr>
                                 <td colspan="3"></td>
-                                <td><strong>Total Tax:</strong></td>
+                                <td><strong>Total BTW:</strong></td>
                                 <td>{{ $totalTax = $this->calculateTotalTax() }}</td>
                                 <td></td>
                             </tr>
@@ -178,12 +179,12 @@
                                 <td>{{ $subAmount = $this->calculatesubAmount() }}</td>
                                 <td></td>
                             </tr>
-                            <tr>
+                            {{-- <tr>
                                 <td colspan="3"></td>
-                                <td><strong>Total Discount:</strong></td>
-                                <td>{{ $totalDiscount = $this->calculateTotalDiscount() }}</td>
-                                <td></td>
-                            </tr>
+                                {{-- <td><strong>Total Discount:</strong></td> --}}
+                                {{-- <td>{{ $totalDiscount = $this->calculateTotalDiscount() }}</td> --}}
+                                {{-- <td></td> --}}
+                            {{-- </tr> --}} 
                             <tr>
                                 <td colspan="3"></td>
                                 <td><strong>Total Amount:</strong></td>
@@ -195,20 +196,20 @@
                 </div>
                 <br>
                 <div class="row">
-                <div class="mb-3 col-md-6">
+                <div class="mb-3 col-md-12">
                     <label class="form-label" for="inputAddress">{{$lang->data['customer_note'] ?? 'Customer Note'}}</label>
                     <textarea class="form-control resize-none" rows="4" wire:model="customer_note"></textarea>
                     @error('customer_note')
                         <span class="text-danger">{{$message}}</span>
                     @enderror
                 </div>
-                <div class="mb-3 col-md-6">
+                {{-- <div class="mb-3 col-md-6">
                     <label class="form-label" for="inputAddress">{{$lang->data['description'] ?? 'Description'}}</label>
                     <textarea class="form-control resize-none" rows="4" wire:model="description"></textarea>
                     @error('description')
                         <span class="text-danger">{{$message}}</span>
                     @enderror
-                </div>    
+                </div>     --}}
                 </div>
                 <button type="button" class="btn btn-primary float-end" :disabled="isUploading == true" wire:click.prevent="create">{{$lang->data['submit'] ?? 'Submit'}}</button>
             </form>

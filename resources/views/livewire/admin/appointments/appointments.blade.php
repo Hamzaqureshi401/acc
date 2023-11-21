@@ -51,6 +51,7 @@
                                         <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#EditModalAppointment" wire:click='edit({{$item}})'>{{$lang->data['edit']??'Edit'}}</a>
                                         @endif
                                 @if($item->status==0)
+
                                     @if($item->customer_status==0)
                                         @if(Auth::user()->can('delete_appointment'))
                                         <a href="#" class="btn btn-sm btn-danger" wire:click="delete({{$item}})">{{$lang->data['delete']??'Delete'}}</a>
