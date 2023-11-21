@@ -102,8 +102,8 @@
                             @enderror
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label class="form-label">{{$lang->data['end_date']??'Quotation No'}} <span class="text-danger"><strong>*</strong></span></label>
-                            <input type="text" class="form-control" id="inputEmail4" placeholder="HH:mm" wire:model="quotation_no" Readonly required>
+                            <label class="form-label">{{$lang->data['end_date']??'Quotation No'}} <span class="text-danger"><strong></strong></span></label>
+                            <input type="text" class="form-control" id="inputEmail4" placeholder="HH:mm" wire:model="quotation_no">
                             @error('quotation_no')
                                 <span class="text-danger">{{$message}}</span>
                             @enderror
@@ -128,7 +128,7 @@
                     <div class="row">
                         <div class="mb-3 col-md-6">
                             <label class="form-label">{{$lang->data['start_date']??'Start Date'}} <span class="text-danger"><strong></strong></span></label>
-                            <input type="date" id="theDate" class="form-control" value="{{ date('Y-m-d') }}" placeholder="{{$lang->data['start_date']??'Start Date'}}" wire:model="start_date">
+                            <input type="date" class="form-control" value="{{ $current_date }}" placeholder="{{$lang->data['start_date']??'Start Date'}}" wire:model="start_date">
                             @error('start_date')
                                 <span class="text-danger">{{$message}}</span>
                             @enderror

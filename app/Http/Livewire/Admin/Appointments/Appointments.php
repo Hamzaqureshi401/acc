@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class Appointments extends Component
 {
     public $appointments,$leads,$description,$appointment,$is_active = true,$lang,$start_time,$end_time,$start_date,$end_date,$lead_id,$lead_name , $custom_note;
-    public $phone,$email,$address,$type;
+    public $phone,$email,$address,$type,$current_date;
     /* render the page */
     public function render()
     {
@@ -24,6 +24,7 @@ class Appointments extends Component
     /* process before render */
     public function mount()
     {
+        $this->current_date = date('Y-m-d');
         $this->lang = getTranslation();
         $this->start_time = date('Y-m-d');
         

@@ -133,13 +133,8 @@
 </div>
 <div class="footer">
    <div class="row">
-      <div class="mb-3 col-md-6">
-         <Strong>
-         <span style="color: #F4864C;">Airconditioning</span> `&nbsp;
-         <span style="color: #F4864C;">Montage</span> `&nbsp;
-         <span style="color: #F4864C;">Onderhoud</span> `&nbsp;
-         </Strong>
-      </div>
+      <div class="col-12"> <img src="{{ asset('footer_print.JPG') }}" alt="Company Logo" style="width: auto; height: auto; max-height: 60%;">
+        </div>
    </div>
 </div>
         <div style="page-break-before:always;"> </div>
