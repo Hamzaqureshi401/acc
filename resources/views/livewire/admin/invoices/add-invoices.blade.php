@@ -149,21 +149,21 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="mb-3 col-md-2">
+                    <div class="mb-3 col-md-1">
                         <label for="productPrice">Price:</label>
-                        <input class='form-control' type="text" wire:change="calculate" wire:model="productPrice">
+                        <input type="text" wire:change="calculate" wire:model="productPrice">
                     </div>
-                    <div class="mb-3 col-md-2">
+                    <div class="mb-3 col-md-1">
                         <label for="productQuantity">Quantity:</label>
-                        <input class='form-control' type="text" wire:change="calculate" wire:model="productQuantity">
+                        <input type="text" wire:change="calculate" wire:model="productQuantity">
                     </div>
-                    <div class="mb-3 col-md-2">
+                    <div class="mb-3 col-md-1">
                         <label for="productQuantity">Unit:</label>
-                        <input class='form-control' type="text" wire:model="productUnit" readonly>
+                        <input type="text" wire:model="productUnit" readonly>
                     </div>
-                    <div class="mb-3 col-md-2">
+                    <div class="mb-3 col-md-1">
                         <label for="total">Total:</label>
-                        <input class='form-control' type="text" wire:model="total" readonly>
+                        <input type="text" wire:model="total" readonly>
                     </div>
                     <!-- <div class="mb-3 col-md-2">
                         <label for="total">Description:</label>
@@ -177,7 +177,8 @@
                         </select>
                         <input type="hidden" wire:model="total_tax">
                     </div> -->
-                    <div class="mt-4 col-md-2">
+                    <div class="mb-3 col-md-2">
+                        <br>
                         <button class="btn btn-primary float-end" wire:click.prevent="addProduct">Add Product</button>
                     </div>
                 </div>

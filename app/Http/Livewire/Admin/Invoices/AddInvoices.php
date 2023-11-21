@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AddInvoices extends Component
 {
-    public $customers,$products,$product_id,$product_name,$productPrice,$productQuantity,$total,$tax= 'yes',$sales_tax,$total_tax=0,$lang,$available,$quantity,$customer,$selected_products=[];
+    public $customers,$products,$product_id,$product_name,$productPrice,$productQuantity,$total,$tax,$sales_tax,$total_tax=0,$lang,$available,$quantity,$customer,$selected_products=[];
     public $subject,$date,$customer_id,$address,$stage,$discount,$description,$customer_note,$totalTax,$totalDiscount,$totalAmount,$subAmount;
     public $quotations,$quotation_id,$maintenance_date,$first_invoice,$first_invoice_amount,$first_due_date,$second_invoice,$second_invoice_amount,$second_due_date,$productdescription,$productUnit,$type;
     /* render the page */

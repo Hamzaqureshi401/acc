@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AddQuotations extends Component
 {
-    public $leads,$products,$product_id,$product_name,$productPrice,$productQuantity,$total,$tax = 'yes',$sales_tax = 21,$total_tax=0,$lang,$available,$quantity,$customer,$selected_products=[],$productdescription;
+    public $leads,$products,$product_id,$product_name,$productPrice,$productQuantity,$total,$tax,$sales_tax = 21,$total_tax=0,$lang,$available,$quantity,$customer,$selected_products=[],$productdescription;
     public $subject,$created_date,$expiry_date, $phone,$email,$customer_id,$lead_id,$address,$stage,$discount,$description,$customer_note,$totalTax,$totalDiscount,$totalAmount,$subAmount;
     /* render the page */
     public function render()
