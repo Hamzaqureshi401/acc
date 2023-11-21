@@ -244,7 +244,7 @@
                         <div class="mb-3 col-md-6">
                             <label class="form-label">{{ $lang->data['end_date'] ?? 'Lead name' }} <span
                                     class="text-danger"><strong>*</strong></span></label>
-                            <input  type="text" class="form-control" id="inputEmail4"
+                            <input jam='4' tabindex="1" type="text" class="form-control" id="inputEmail4"
                                 placeholder="{{ $lang->data['end_date'] ?? '' }}" wire:model="lead_name" Readonly
                                 required>
                             @error('lead_name')
@@ -254,7 +254,7 @@
                         <div class="mb-3 col-md-6">
                             <label class="form-label">{{ $lang->data['end_date'] ?? 'Quotation No' }} <span
                                     class="text-danger"></span></label>
-                            <input  type="text" class="form-control" id="inputEmail4"
+                            <input tabindex="2" type="text" class="form-control" id="inputEmail4"
                                 placeholder="{{ $lang->data['end_date'] ?? '' }}" wire:model="quotation_no">
                             @error('quotation_no')
                                 <span class="text-danger">{{ $message }}</span>
@@ -265,7 +265,7 @@
                         <div class="mb-3 col-md-6">
                             <label class="form-label">{{ $lang->data['start_time'] ?? 'Start Time' }} <span
                                     class="text-danger"><strong>*</strong></span></label>
-                            <input  type="text" class="form-control" id="start_time" placeholder="HH:mm"
+                            <input tabindex="3" type="text" class="form-control" id="start_time" placeholder="HH:mm"
                                 wire:model="start_time" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]">
                             @error('start_time')
                                 <span class="text-danger">{{ $message }}</span>
@@ -274,7 +274,7 @@
                         <div class="mb-3 col-md-6">
                             <label class="form-label">{{ $lang->data['end_time'] ?? 'End Time' }} <span
                                     class="text-danger"><strong>*</strong></span></label>
-                            <input type="text" class="form-control" id="end_time" placeholder="HH:mm"
+                            <input tabindex="4" type="text" class="form-control" id="end_time" placeholder="HH:mm"
                                 wire:model="end_time" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]">
                             @error('end_time')
                                 <span class="text-danger">{{ $message }}</span>
@@ -403,31 +403,16 @@
 
 </div>
 <script>
-    window.onkeydown = function(e) {
-        if (e.which == 9) { // Tab key
+    window.onkeypress = function(e) {
+        if (e.which == 9) { // Enter key
             e.preventDefault();
             var inputs = $('#MakeAppointment input, #MakeAppointment select');
-            var activeElement = document.activeElement;
-            console.log(activeElement);
-            // Check if the active element is a flatpicker-hour input
-            if ($(activeElement).hasClass('flatpicker-hour')) {
-                console.log('activeflat', activeElement);
-                // Focus on the next input element (skip the flatpicker-hour inputs)
-                var nextInput = inputs.get(inputs.index(activeElement) + 1);
-                if (nextInput) {
-                    nextInput.focus();
-                }
-            } else {
-                // Focus on the next input or select element
-                var nextInput = inputs.get(inputs.index(activeElement) + 1);
-                console.log(nextInput);
-                if (nextInput) {
-                    nextInput.focus();
-                }
+            var nextInput = inputs.get(inputs.index(document.activeElement) + 1);
+            if (nextInput) {
+                nextInput.focus();
             }
         }
     };
 </script>
-
 
 

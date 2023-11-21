@@ -99,9 +99,9 @@ class Customers extends Component
         $customerMedia = $customer->media;
 
         // Map media to an array of URLs
-        $this->situation_images = $customerMedia->map(function ($media) {
-            return $media->situation_image;
-        })->toArray();
+        // $this->situation_images = $customerMedia->map(function ($media) {
+        //     return $media->situation_image;
+        // })->toArray();
 
         $this->old_situation_images = $customer->media->map(function ($media) {
             return $media->situation_image;
@@ -136,7 +136,6 @@ class Customers extends Component
             'email' => 'nullable|email|unique:customers,email,' . $this->customer->id,
             // 'situation_images.*' => 'image|max:1024', // Adjust the validation rules accordingly
         ]);
-
         $customer = $this->customer;
         $customer->name = $this->name;
         $customer->phone = $this->phone;

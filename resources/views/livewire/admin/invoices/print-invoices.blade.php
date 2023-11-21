@@ -1,43 +1,3 @@
-<style type="text/css">
-   body {
-   display: flex;
-   flex-direction: column;
-   min-height: 100vh;
-   margin: 0;
-   }
-   .content {
-   flex: 1;
-   }
-   .footer {
-   display: none;
-   }
-   .footer span {
-   font-size: 18px;
-   }
-   .label {
-   display: inline-block;
-   min-width: 120px; /* Adjust this value based on your needs */
-   font-weight: bold;
-   }
-   @media print {
-   .content:last-child {
-   page-break-after: auto; /* Ensure a page break after the last element of the printed content */
-   }
-   .address-info {
-   text-align: left !important;
-   }
-   .footer {
-   display: block; /* Show the footer when printing */
-   position: fixed;
-   bottom: 0;
-   width: 100%;
-   background-color: #f8f9fa; /* Set your desired background color */
-   padding: 10px;
-   text-align: center;
-   color: #F4864C;
-   }
-   }
-</style>
 <div>
    @if($printer == 1)
    <div class="card">
@@ -75,10 +35,10 @@
                                  <td
                                     class="view-td2">
                                     <font class="view-f1">
-                                    <strong
-                                       >
-                                    {{$lang->data['customer_info'] ?? 'Klantgegevens'}}
-                                    </strong>
+                                    <font
+                                       class="view-f2">
+                                    {{$lang->data['customer_info'] ?? 'Customer Info'}}
+                                    </font>
                                     </font><br>
                                     <font class="view-align1">
                                     <font
@@ -97,37 +57,51 @@
                                     </font>
                                     </font><br>
                                  </td>
-                                 <td class="view-f4" style="text-align: left; float: right;">
-                                   
-                                    <strong>
-                                    {{$lang->data['company_info'] ?? 'Factuurgegevens'}}
-                                    </strong>
-                                    <br>
+                                 <td
+                                    class="view-f4 text-end">
+                                    <font class="view-f5">
+                                    <font
+                                       class="view-f6">
+                                    {{$lang->data['company_info'] ?? 'Billing Details'}}</font>
+                                    </font><br>
                                     <font class="view-align1">
-                                    <font class="view-f3">
-                                    {{$lang->data['invoice_date'] ?? 'Factuurdatum'}}: {{ $invoice->date ?? '--'}}
+                                    <!-- <font
+                                       class="view-f3">
+                                    {{$store_name}} </font> -->
+                                    <font
+                                       class="view-f3">
+                                    {{$lang->data['invoice_date'] ?? 'invoice Date'}}: {{ $invoice->date ?? '--'}} </font>
                                     </font>
                                     </font><br>
                                     <font class="view-align1">
+                                    <font
+                                       class="view-f3">
                                     <font class="view-f3">
-                                    <font class="view-f3">
-                                    {{$lang->data['quotation_No'] ?? 'Offertenummer'}}: {{ optional($invoice->customer->quotation->first())->quotation_number ?? '--'}}
-                                    </font>
+   {{$lang->data['quotation_No'] ?? 'Quotation No'}}: {{ optional($invoice->customer->quotation->first())->quotation_number ?? '--'}}
+</font>
+
                                     </font>
                                     </font><br>
                                     <font class="view-align1">
-                                    <font class="view-f3">
-                                    {{$lang->data['invoice_no'] ?? 'Factuurnummer'}}: 
+                                    <font
+                                       class="view-f3">
+                                    {{$lang->data['invoice_no'] ?? 'invoice No'}}: 
+
+
+
                                     {{ $invoice->invoice_number ?? '--'}}
                                     @if($no == 1)
-                                    -1
-                                    @else
-                                    -2
-                                    @endif
+                                     -1
+                                     @else
+                                     -2
+                                     @endif
+                                 </font>
                                     </font>
-                                    </font>
+                                    </font><br>
                                  </td>
+                               
                               </tr>
+                            
                            </tbody>
                         </table>
                      </td>
@@ -136,19 +110,20 @@
             </table>
          </div>
          <div class="row">
-            <span class="text-center">Factuur Aanbetaling
-           <!--  @if($no == 1)
-            {{ $invoice->first_invoice }}
-            @else
-            {{ $invoice->second_invoice }}
-            @endif 
-            %-->
-         </span>
+            <span class="text-center">Invoice Upon Delivery
+             
+               @if($no == 1)
+             {{ $invoice->first_invoice }}
+             @else
+             {{ $invoice->second_invoice }}
+             @endif
+          %</span>
             <table class="table table-striped table-binvoiceed table-sm">
                <thead class="bg-secondary-light">
+            
                   <tr class="text-sm">
                      <th>{{$lang->data['sl'] ?? 'Sl'}}</th>
-                     <th>{{$lang->data['product_servise'] ?? 'Product/Dienst'}}</th>
+                     <th>{{$lang->data['product_servise'] ?? 'Product/Service'}}</th>
                      <th class="">{{$lang->data['btw'] ?? 'Btw'}}</th>
                      <th class="text-end">{{$lang->data['total'] ?? 'Total'}}</th>
                   </tr>
@@ -168,8 +143,10 @@
                      </td>
                   </tr>
                   @endforeach
+                 
                </tbody>
                <tfoot>
+                 
                   @php
                   $total=($invoice->total_amount/100)*$percentage;
                   $percentage = ($no == 1) ? $invoice->first_invoice : $invoice->second_invoice;
@@ -177,36 +154,33 @@
                   @endphp
                   <tr>
                      <td></td>
-                     <td colspan="2" class="text-end"><p>{{$lang->data['total_amt_exc_val'] ?? 'Totaalbedrag ex. BTW'}}:</p></td>
-                     <td class="text-end"><p>{{ getCurrency() }}{{ number_format($invoice->total_amount, 2) }}</p></td>
+                     <td colspan="2" class="text-end"><strong>{{$lang->data['total_amt_exc_val'] ?? 'Total Amt Execl. VAT'}}:</strong></td>
+                     <td class="text-end"><strong>{{ getCurrency() }}{{ number_format($invoice->total_amount, 2) }}</strong></td>
                   </tr>
                   <tr>
                      <td></td>
-                     <td colspan="2" class="text-end"><p> 'Btw'  @if($no == 1)
-                        {{ $invoice->first_invoice }}
-                        @else
-                        {{ $invoice->second_invoice }}
-                        @endif %:</p>
-                     </td>
+                     <td colspan="2" class="text-end"><strong> 'Btw'  @if($no == 1)
+                      {{ $invoice->first_invoice }}
+                      @else
+                      {{ $invoice->second_invoice }}
+                      @endif %:</strong></td>
                      <td class="text-end"><strong>{{getCurrency()}}{{ number_format(($invoice->tax_amount) , 2)  }}</strong></td>
                   </tr>
                   <hr>
                   <tr>
                      <td></td>
-                     <td colspan="2" class="text-end"><strong>{{$lang->data['total_amt_inc_vat'] ?? 'Totaalbedrag incl. BTW' }}:</strong></td>
-                     <td class="text-end"><strong>{{ getCurrency() . number_format($invoice->total_amount ,2) }}</strong></td>
+                     <td colspan="2" class="text-end"><strong>{{$lang->data['total_amt_inc_vat'] ?? 'Total Amt Inc VAT' }}:</strong></td>
+
+                    <td class="text-end"><strong>{{ getCurrency() . number_format($invoice->total_amount ,2) }}</strong></td>
                   </tr>
                   <tr>
-                     <td><!-- Total Amount is {{$invoice->total_amount}} excluding tex and @if($no == 1) 
+                     <td>Total Amount is {{$invoice->total_amount}} excluding tex and @if($no == 1) 
                         {{ $invoice->first_invoice }}
-                        @else
-                        {{ $invoice->second_invoice }}
-                        @endif 
-                        % is {{ $bill }} -->
+                      @else
+                      {{ $invoice->second_invoice }}
+                      @endif 
 
-                        U wordt verzocht het totaal bedrag binnen 5 dagen na ontvangst over te maken op rekening NL98
-INGB 0675 9455 69 onder vermelding van het factuurnummer
-                     </td>
+                   % is {{ $bill }}</td>
                   </tr>
                </tfoot>
             </table>
@@ -222,18 +196,5 @@ INGB 0675 9455 69 onder vermelding van het factuurnummer
                  window.close();
              }, 1);
          }
-      </script> -->
+   </script> -->
 </div>
-<div class="footer">
-   <div class="row">
-      <div class="mb-3 col-md-6">
-         <Strong>
-         <span style="color: #F4864C;">Airconditioning</span> `&nbsp;
-         <span style="color: #F4864C;">Montage</span> `&nbsp;
-         <span style="color: #F4864C;">Onderhoud</span> `&nbsp;
-         </Strong>
-      </div>
-   </div>
-</div>
-<div style="page-break-before:always;"> </div>
-@include('livewire.admin.print_quotation_invoice_common')
