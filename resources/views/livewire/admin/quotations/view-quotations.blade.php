@@ -8,6 +8,10 @@
     <div class="col-auto ms-auto text-end mt-n1">
         <a href="{{route('admin.add_quotation')}}" class="btn btn-primary">{{$lang->data['new_quotation'] ?? 'New Quotation'}}</a>
     </div>
+    <div class="col-auto ms-auto text-end mt-n1">
+     <a href="#" class="btn btn-sm btn-success" wire:click="makeclient()">{{'Make Client'}}</a>
+ </div>
+
     @endif
 </div>
 

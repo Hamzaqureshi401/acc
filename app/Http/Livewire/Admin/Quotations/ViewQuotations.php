@@ -33,4 +33,20 @@ class ViewQuotations extends Component
         $this->dispatchBrowserEvent(
             'alert', ['type' => 'success',  'message' => 'Quotation has been deleted!']);
     }
+     public function makeclient()
+    {
+        // $customer = new Customer();
+        // $lead=Lead::where('id', $appointment->lead_id)->first();
+        // $customer->lead_id = $appointment->lead_id;
+        // $customer->name = $lead->name;
+        // $customer->phone = $lead->phone;
+        // $customer->email = $lead->email;
+        // $customer->postcode = $lead->postcode;
+        // $customer->address = $lead->address;
+        // $customer->city = $lead->city;
+        // $customer->save();
+        // Appointment::where('id', $appointment->id)->update(['customer_status' => 1]);
+        // $this->dispatchBrowserEvent(
+        //     'alert', ['type' => 'success',  'message' => 'Customer has been Created!']);
+    }
 }

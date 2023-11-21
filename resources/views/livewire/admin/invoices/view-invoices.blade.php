@@ -112,26 +112,44 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">{{$lang->data['make_appointment']??'Make Appointment'}}</h5>
+                <h5 class="modal-title">{{$lang->data['make_appointment']??'Invoice Payment Status'}}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="mb-3 col-md-6">
-                        <label class="form-label">{{$lang->data['amount']??'Amount'}} <span class="text-danger"><strong>*</strong></span></label>
-                        <input type="text" class="form-control" id="inputEmail4" placeholder="{{$lang->data['amount']??''}}" wire:model="amount" Readonly>
-                        @error('amount')
-                            <span class="text-danger">{{$message}}</span>
-                        @enderror
-                        <input type="hidden" wire:model="no">
-                        <input type="hidden" wire:model="invoice_id">
+                         <label>
+            <input type="radio" wire:model="paymentStatus" value="paid">
+            Paid
+        </label>
+
+       
                     </div>
                     <div class="mb-3 col-md-6">
-                        <label class="form-label">{{$lang->data['paid_amount']??'Paid Amount'}} <span class="text-danger"><strong>*</strong></span></label>
-                        <input type="text" class="form-control" id="inputEmail4" placeholder="{{$lang->data['paid_amount']??''}}" wire:model="paid_amount" Readonly>
-                        @error('paid_amount')
-                            <span class="text-danger">{{$message}}</span>
-                        @enderror
+                        <label>
+            <input type="radio" wire:model="paymentStatus" value="unpaid">
+            Unpaid
+        </label>
+                    </div>
+                    <div class="col-12">
+                        
+                    </div>
+                   <label>
+            <input type="date" wire:model="p_date" value="{{ $p_date }}" class="form-control">
+            Date
+        </label>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{$lang->data['close']??'Close'}}</button>
+                <button type="button" class="btn btn-success" wire:click="savepayment">{{$lang->data['save']??'Save'}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
                     </div>
                     <div class="mb-3 col-md-6">
                         <label class="form-label">{{$lang->data['pay']??'Pay'}} <span class="text-danger"><strong>*</strong></span></label>

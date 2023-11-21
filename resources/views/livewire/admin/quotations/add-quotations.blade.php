@@ -122,10 +122,10 @@
                         <label for="total">Total:</label>
                         <input type="text" wire:model="total" readonly>
                     </div>
-                    <div class="mb-3 col-md-2">
+                    <!-- <div class="mb-3 col-md-2">
                         <label for="total">Description:</label>
                         <input type="text" wire:model="productdescription">
-                    </div>
+                    </div> -->
                     {{-- <div class="mb-3 col-md-1">
                         <label for="tax">Tax:</label>
                         <select class="form-control" wire:change="calculate" wire:model="tax">

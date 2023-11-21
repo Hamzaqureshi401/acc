@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class Appointments extends Component
 {
     public $appointments,$leads,$description,$appointment,$is_active = true,$lang,$start_time,$end_time,$start_date,$end_date,$lead_id,$lead_name , $custom_note;
-    public $phone,$email,$address,$type,$current_date;
+    public $phone,$email,$address,$type;
     /* render the page */
     public function render()
     {
@@ -24,7 +24,6 @@ class Appointments extends Component
     /* process before render */
     public function mount()
     {
-        $this->current_date = date('Y-m-d');
         $this->lang = getTranslation();
         $this->start_time = date('Y-m-d');
         
@@ -41,7 +40,7 @@ class Appointments extends Component
             // 'start_time'  => 'required',
             'end_time'  => 'required',
             // 'start_date'  => 'required',
-            'quotation_no'  => 'required',
+            //'quotation_no'  => 'required',
             'type'  => 'required',
         ]);
         $appointment = new Appointment();
@@ -139,9 +138,9 @@ class Appointments extends Component
     public function resetFields()
     {
         $this->lead_id = "";
-        $this->start_time = "";
-        $this->end_time = "";
-        $this->start_date = "";
+        $this->start_time = now()->format('H:i');
+        $this->end_time = now()->addHour()->format('H:i');
+        $this->start_date = date('Y-m-d');
         $this->quotation_no = "";
         $this->type = "";
         $this->resetErrorBag();
