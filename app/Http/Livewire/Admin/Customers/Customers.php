@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Admin\Customers;
 
 use App\Models\CustomerMedia;
-use Image;
+use Intervention\Image\Facades\Image;
 use Livewire\WithFileUploads;
 use App\Models\Lead;
 use Livewire\Component;
@@ -11,6 +11,7 @@ use App\Models\Customer;
 use App\Models\Appointment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+
 
 
 class Customers extends Component
@@ -63,7 +64,7 @@ class Customers extends Component
     public function deleteImage($index)
     {
         // Get the image path from the array
-        $imagePath = $this->situation_images[$index];
+        $imagePath = $this->old_situation_images[$index];
     
         // Optionally, delete the image file from storage
         if (is_string($imagePath)) {
@@ -77,8 +78,8 @@ class Customers extends Component
             }
         }
     
-        unset($this->situation_images[$index]);
-        $this->situation_images = array_values($this->situation_images);
+        unset($this->old_situation_images[$index]);
+        $this->old_situation_images = array_values($this->old_situation_images);
     
         // Emit an event to trigger a refresh when an image is deleted
         $this->emit('imageDeleted');

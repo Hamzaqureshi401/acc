@@ -102,10 +102,11 @@
                             @enderror
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label class="form-label">{{$lang->data['end_date']??'Quotation No'}} <span class="text-danger"><strong></strong></span></label>
-                            <input type="text" class="form-control" id="inputEmail4" placeholder="No" wire:model="quotation_no">
+                            <label class="form-label">{{ $lang->data['quotation_no'] ?? 'Quotation No' }} </label>
+                            <input type="text" class="form-control" id="inputEmail4" placeholder="Quotation No"
+                                wire:model="quotation_no">
                             @error('quotation_no')
-                                <span class="text-danger">{{$message}}</span>
+                                <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
@@ -235,3 +236,46 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    window.onkeydown = function(e) {
+        var codee = e.which || e.keyCode;
+        if (codee === 9) {
+            e.preventDefault();
+            var inputs = $('#ModalAppointment input, #ModalAppointment select');
+            var nextInput = inputs.get(inputs.index(document.activeElement) + 1);
+            if (nextInput) {
+                destroyFlatpickr('#start_time'); // Destroy the existing Flatpickr instance
+                nextInput.focus();
+                destroyFlatpickr('#end_time'); // Destroy the existing Flatpickr instance
+                nextInput.focus();
+
+                initializeFlatpickr('#start_time'); // Reinitialize Flatpickr with custom event handlers
+                initializeFlatpickr('#end_time'); // Reinitialize Flatpickr with custom event handlers
+            }
+        }
+    };
+
+
+    function destroyFlatpickr(inputSelector) {
+        var flatpickrInstance = $(inputSelector).data('flatpickr');
+        if (flatpickrInstance) {
+            flatpickrInstance.destroy();
+        }
+    }
+
+    function initializeFlatpickr(inputSelector) {
+        flatpickr(inputSelector, {
+            // Your Flatpickr options here
+            onClose: function(selectedDates, dateStr, instance) {
+                // Your custom logic when the calendar is closed
+                console.log('Flatpickr calendar closed');
+            },
+            onChange: function(selectedDates, dateStr, instance) {
+                // Your custom logic when the selected date changes
+                console.log('Selected dates:', selectedDates);
+            },
+            // Add more custom event handlers as needed
+        });
+    }
+</script>

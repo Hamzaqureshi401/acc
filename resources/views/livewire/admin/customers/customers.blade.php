@@ -168,7 +168,6 @@
                         @enderror
                     </div>
                     <!-- Blade File -->
-
                     <div class="mb-3">
                         <label class="form-label"
                             for="inputCity">{{ $lang->data['situation_image'] ?? 'Situation Image' }}</label>
