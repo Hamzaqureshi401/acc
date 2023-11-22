@@ -24,6 +24,7 @@ class AddInvoices extends Component
         $this->products = Product::latest()->get();
         $this->quotations = Quotation::latest()->where('invoice_status',0)->get();
         $this->date=Carbon::today()->toDateString();
+        $this->first_due_date=date('y-m-d', strtotime('+5 days'));
         return view('livewire.admin.invoices.add-invoices');
     }
     /* process before render */
