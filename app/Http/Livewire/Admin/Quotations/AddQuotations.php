@@ -171,6 +171,7 @@ class AddQuotations extends Component
         $quotation->total_amount=$this->totalAmount;
         $quotation->description=$this->description;
         $quotation->customer_note=$this->customer_note;
+        $quotation->appointment_id = Lead::where('id' , $this->lead_id)->first()->appointments->id;
         $quotation->save();
 
         foreach ($this->selected_products as $key => $item) 

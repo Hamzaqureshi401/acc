@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\Invoices;
 
 use App\Models\Addon;
 use App\Models\Invoice;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -81,5 +82,22 @@ class ViewInvoices extends Component
         $this->emit('closemodal');
         $this->dispatchBrowserEvent(
             'alert', ['type' => 'success',  'message' => 'Payment has been saved!']);
+    }
+    public function approve($id){
+        // dd($id);
+        $invoice = Invoice::where('id' , $id)->first();
+        $this->deductStock($invoice);
+        $invoice->is_approved = 1;
+        $invoice->approve_date = date('Y-m-d');
+        $invoice->save();
+    }
+
+    public function deductStock($invoice){
+
+        foreach($invoice->details as $pr){
+            $product=Product::where('id', $pr->product_id)->first();
+            $product->quantity= $product->quantity - $pr->quantity;
+            $product->save();
+        }
     }
 }

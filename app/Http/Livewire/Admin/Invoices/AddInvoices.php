@@ -231,9 +231,9 @@ class AddInvoices extends Component
             $invoiceDetail->description = $item['description'];
             $invoiceDetail->save();
 
-            $product=Product::where('id', $item['product_id'])->first();
-            $product->quantity= $product->quantity - $item['quantity'];
-            $product->save();
+            // $product=Product::where('id', $item['product_id'])->first();
+            // $product->quantity= $product->quantity - $item['quantity'];
+            // $product->save();
         }
         Quotation::where('id', $this->quotation_id)->update(['invoice_status' => 1]);
         $this->dispatchBrowserEvent(
@@ -241,6 +241,8 @@ class AddInvoices extends Component
         $this->resetEverything();
         return;
     }
+
+    
 
     public function calculateTotalTax()
     {

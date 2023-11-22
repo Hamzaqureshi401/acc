@@ -12,7 +12,7 @@
                      <div class="col-md-2">
                         <div class="form-group">
                            <label for="brand">Brand:</label>
-                           <select wire:model.lazy="supplier_brand_id" id="brand" class="form-control">
+                           <select wire:model="supplier_brand_id" id="brand" class="form-control">
                               
                                 <option value="All">All Brands</option>
                                 @foreach ($brands as $brand)
@@ -25,7 +25,7 @@
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for="category">Category:</label>
-                            <select wire:model.lazy="category_id" id="category" class="form-control">
+                            <select wire:model="category_id" id="category" class="form-control">
                                 <option value="All">All Categories</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -37,7 +37,7 @@
                      <div class="col-md-2">
                         <div class="form-group">
                            <label for="client">Client:</label>
-                           <select wire:model.lazy="client_id" id="client" class="form-control">
+                           <select wire:model="client_id" id="client" class="form-control">
                               <option value="All">All Client</option>
                               @foreach ($clients as $item)
                            <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -49,12 +49,12 @@
                      <div class="col-md-2">
                         <div class="form-group">
                            <label for="date">Date:</label>
-                           <input type="date" wire:model.lazy="date" id="date" class="form-control">
+                           <input type="date" wire:model="date" id="date" class="form-control">
                         </div>
                      </div>
                      <div class="col-md-2">
                         <label>{{$lang->data['select_product'] ?? 'Select Product'}}</label>
-                        <select class="form-select" wire:model.lazy="product_id">
+                        <select class="form-select" wire:model="product_id">
                            <option>{{$lang->data['all_products']?? 'All Products'}}</option>
                            @foreach ($product as $item)
                            <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -87,7 +87,10 @@
                            <th class="tw-25">{{$lang->data['name'] ?? 'Product Name'}}</th>
                            <th class="tw-10">{{$lang->data['quantity'] ?? 'Quantity'}}</th>
                            
-                           <th class="tw-10">{{$lang->data['old_stock'] ?? 'Total Stock'}}</th>
+                           <th class="tw-10">{{$lang->data['old_stock'] ?? 'Quantity In Stock'}}</th>
+                           <th class="tw-10">{{$lang->data['Stock Reserved'] ?? 'Quantity Reserved'}}</th>
+                           <th class="tw-10">{{$lang->data['Stock Reserved'] ?? 'Estimated Remaining Quantity'}}</th>
+                           
                            <th class="tw-10">{{$lang->data['sold'] ?? 'Sold'}}</th>
                            <th class="tw-10">{{$lang->data['quantity'] ?? 'Date'}}</th>
                            <!-- <th class="tw-10">{{$lang->data['action'] ?? 'Action'}}</th> -->
@@ -95,15 +98,29 @@
                      </thead>
                      <tbody>
                         @foreach ($data as $item)
+                        @php
+                        $reserved_stock = $item->invoicedetails()
+                         ->whereHas('invoice', function ($query) {
+                             $query->where('is_approved', 0);
+                         })
+                         //->whereNotNull('invoice_id') // Add this condition to check for a valid invoice relationship
+                         ->sum('quantity');
+
+                        @endphp
                         <tr>
                            <td>{{$loop->index + 1}}</td>
                            <td>{{$item->product->name ?? '--'}}</td>
                            <td>{{$item->total_quantity}}/{{$item->product->unit ?? '--'}}</td>
                            
                            <td>{{ $item->product->quantity ?? '--'}}</td>
+                           <td>
+                               {{ $reserved_stock }}
+                           </td>
+                           <td>{{ $item->product->quantity ?? 0 - $reserved_stock }}</td>
                            <td>{{ $item->invoicedetails->sum('quantity')}}</td>
                            <td>{{$item->created_at}}</td>
-                           <!-- <td><a href="" class="btn btn-success">Show Sold Client Detail</a></td> -->
+                           
+<!-- <td><a href="" class="btn btn-success">Show Sold Client Detail</a></td> -->
                         </tr>
                         @endforeach
                      </tbody>
@@ -123,10 +140,11 @@
                      <thead class="bg-secondary-light">
                         <tr>
                            <th class="tw-2">{{$lang->data['sl'] ?? 'Sl'}}</th>
-                           <th class="tw-25">{{$lang->data['name'] ?? 'Product'}}</th>
+                           <th class="tw-25">{{$lang->data['name'] ?? 'Product Name'}}</th>
                            <th class="tw-25">{{$lang->data['name'] ?? 'Customer'}}</th>
                            <th class="tw-10">{{$lang->data['quantity'] ?? 'Quantity Sold'}}</th>
                            <th class="tw-10">{{$lang->data['quantity'] ?? 'Date'}}</th>
+                           <th class="tw-10">{{$lang->data['Stock Reserved'] ?? 'Stock Reserved'}}</th>
 
                            <!-- <th class="tw-10">{{$lang->data['action'] ?? 'Action'}}</th> -->
                         </tr>
@@ -135,6 +153,9 @@
                         @foreach ($data as $item)
                         @php
                         $inv =$item->invoicedetails->groupBy('product_id');
+                        $reserved_stock = $item->invoicedetails()->whereHas('invoice', function ($query) {
+                                   $query->where('is_approved', 0);
+                               })->groupBy('product_id')->sum('quantity');
                         @endphp
                         @foreach($inv as $item2)
                         
@@ -145,6 +166,7 @@
                            
                            <td>{{ $item->invoicedetails->sum('quantity')}}</td>
                            <td>{{ $item2->first()->invoice->created_at }}</td>
+                           <td>{{ $reserved_stock }}</td>
                            
                            <!-- <td><a href="" class="btn btn-success">Show Sold Client Detail</a></td> -->
                         </tr>

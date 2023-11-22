@@ -12,6 +12,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Customer extends Model
 {
     use HasFactory;
+
+      protected $fillable = [
+        'name',
+        'phone',
+        'email',
+        'postcode',
+        'address',
+        'city',
+        'customer_note',
+        'situation_image',
+        'lead_id',
+        'created_by',
+    ];
+    
     protected static function booted()
     {
         static::creating(function ($item) {

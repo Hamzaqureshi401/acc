@@ -1,5 +1,9 @@
 <div>
-   
+    <style type="text/css">
+        a{
+            margin: 5px;
+        }
+    </style>
 <div class="row mb-2 mb-xl-3">
     <div class="col-auto d-none d-sm-block">
         <h3><strong>{{$lang->data['invoices'] ?? 'Invoices'}}</strong></h3>
@@ -24,6 +28,9 @@
                             <th class="tw-10">{{$lang->data['address'] ?? 'Address'}}</th>
                             <th class="tw-10">{{$lang->data['date'] ?? 'Date'}}</th>
                             <th class="tw-10">{{$lang->data['total_amount'] ?? 'Total Amount'}}</th>
+                            <th class="tw-10">{{$lang->data['is_approved'] ?? 'Stock status'}}</th>
+                            <!-- <th class="tw-10">{{$lang->data['approve_date'] ?? 'Approved Date'}}</th> -->
+
                             <th class="tw-15">{{$lang->data['pay'] ?? 'Invoice 1'}}</th>
                             <th class="tw-15">{{$lang->data['pay'] ?? 'Invoice 2'}}</th>
                             <th class="tw-15">{{$lang->data['actions'] ?? 'Actions'}}</th>
@@ -38,6 +45,17 @@
                             <td>{{$item->address}}</td>
                             <td>{{$item->date}}</td>
                             <td>{{getCurrency()}}{{$item->total_amount}}</td>
+                            <td>
+                                @if($item->is_approved == 1)
+                                <span style="color: green;">Stock Released <br>
+                                    {{$item->approve_date ?? '--'}}
+                                </span>
+                                @else
+                                <span style="color: red;">Stock Not Released</span>
+                                @endif
+                            </td>
+                            <!-- <td>{{$item->approve_date ?? '--'}}</td> -->
+                            
                             <td>
                                 @if(Auth::user()->can('invoice_list'))
                                     @if($item->first_invoice==100)
@@ -87,9 +105,15 @@
 
                                 @if(Auth::user()->can('edit_invoice'))
                                 <a href="{{route('admin.edit_invoice',$item->id)}}" class="btn btn-sm btn-primary">{{$lang->data['edit'] ?? 'Edit'}}</a>
+
                                 @endif
 
                                 @if(Auth::user()->can('delete_invoice'))
+                                @if($item->is_approved == 0)
+                                  <a href="javascript:void(0)" wire:click="approve('{{$item->id}}')" class="btn btn-sm btn-dark">{{$lang->data['edit'] ?? 'Release Stock'}}</a>
+                                  <br>
+                                  @endif
+
                                 <a href="#" class="btn btn-sm btn-danger" wire:click="delete({{$item}})">{{$lang->data['delete'] ?? 'Delete'}}</a>
                                 @endif
 
@@ -109,44 +133,70 @@
 </div>
 
 <div class="modal fade" id="Modalpayment" tabindex="-1" role="dialog" aria-hidden="true" wire:ignore.self>
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">{{$lang->data['make_appointment']??'Invoice Payment Status'}}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               <h5 class="modal-title">{{ $lang->data['make_appointment'] ?? 'Invoice Payment Status' }}</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="mb-3 col-md-6">
-                         <label>
-            <input type="radio" wire:model="paymentStatus" value="paid">
-            Paid
-        </label>
-
-       
-                    </div>
-                    <div class="mb-3 col-md-6">
-                        <label>
-            <input type="radio" wire:model="paymentStatus" value="unpaid">
-            Unpaid
-        </label>
-                    </div>
-                    <div class="col-12">
-                        
-                    </div>
-                   <label>
-            <input type="date" wire:model="p_date" value="{{ $p_date }}" class="form-control">
-            Date
-        </label>
-                </div>
+               <div class="row">
+                  <div class="mb-3 col-md-6">
+                     <label class="form-label">{{ $lang->data['amount'] ?? 'Amount' }} <span
+                        class="text-danger"><strong>*</strong></span></label>
+                     <input type="text" class="form-control" id="inputEmail4"
+                        placeholder="{{ $lang->data['amount'] ?? '' }}" wire:model="amount" Readonly>
+                     @error('amount')
+                     <span class="text-danger">{{ $message }}</span>
+                     @enderror
+                     <input type="hidden" wire:model="no">
+                     <input type="hidden" wire:model="invoice_id">
+                  </div>
+                  {{-- 
+                  <div class="mb-3 col-md-6">
+                     <label class="form-label">{{$lang->data['paid_amount']??'Paid Amount'}} <span class="text-danger"><strong>*</strong></span></label>
+                     <input type="text" class="form-control" id="inputEmail4" placeholder="{{$lang->data['paid_amount']??''}}" wire:model="paid_amount" Readonly>
+                     @error('paid_amount')
+                     <span class="text-danger">{{$message}}</span>
+                     @enderror
+                  </div>
+                  --}}
+                  <div class="mb-3 col-md-6">
+                     <label class="form-label">{{ $lang->data['current_date'] ?? 'Cuttent Date' }} <span
+                        class="text-danger"><strong>*</strong></span></label>
+                     <input  type="date" class="form-control" id="current_date" wire:model="current_date" >
+                  </div>
+                  <div class="mb-3 col-md-6">
+                     <label class="form-label">{{ $lang->data['pay'] ?? 'Pay' }} <span
+                        class="text-danger"><strong>*</strong></span></label>
+                     <div class="form-check">
+                        <input name="pay" class="form-check-input" type="radio" id="paid"
+                           value="paid" wire:model="pay">
+                        <label class="form-check-label" for="paid">
+                        {{ $lang->data['paid'] ?? 'Paid' }}
+                        </label>
+                     </div>
+                     <div class="form-check">
+                        <input  name="pay" class="form-check-input" type="radio" id="unpaid"
+                           value="unpaid" wire:model="pay">
+                        <label class="form-check-label" for="unpaid">
+                        {{ $lang->data['unpaid'] ?? 'Unpaid' }}
+                        </label>
+                     </div>
+                     @error('pay')
+                     <span class="text-danger">{{ $message }}</span>
+                     @enderror
+                  </div>
+               </div>
             </div>
-
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{$lang->data['close']??'Close'}}</button>
-                <button type="button" class="btn btn-success" wire:click="savepayment">{{$lang->data['save']??'Save'}}</button>
+               <button type="button" class="btn btn-secondary"
+                  data-bs-dismiss="modal">{{ $lang->data['close'] ?? 'Close' }}</button>
+               <button type="button" class="btn btn-success"
+                  wire:click="savepayment">{{ $lang->data['save'] ?? 'Save' }}</button>
             </div>
-        </div>
-    </div>
-</div>
+         </div>
+      </div>
+   </div>
 
 </div>

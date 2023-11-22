@@ -38,20 +38,23 @@ class StockReportDateWise extends Component
     /* process before render */
     public function mount()
     {
-        $this->product=Product::latest()->get();
-        $this->categories = ProductCategory::get();
-        $this->brands = Supplier::get();
-        $this->clients = Customer::get();
-        $this->getData();
+        
+        
         $this->lang = getTranslation();
         if(!Auth::user()->can('stock_report'))
         {
             abort(404);
         }
+        $this->getData();
+        
     }
     /* feach Item wise sales report*/
     public function getData()
     {
+        $this->product=Product::latest()->get();
+        $this->categories = ProductCategory::get();
+        $this->brands = Supplier::get();
+        $this->clients = Customer::get();
         
         $this->data = $this->filterData($this->supplier_brand_id , $this->category_id, $this->client_id , $this->product_id , $this->date);
 
@@ -80,7 +83,7 @@ $product_id = ($product_id === 'All Products') ? null : $product_id;
 // Now $brand_id, $category_id, $client_id, and $product_id are set to empty if their value was "All"
 
       return Stock::select('product_id', DB::raw('SUM(quantity) as total_quantity'))
-    ->with('product', 'invoicedetails.invoice')
+    ->with('product', 'invoicedetails.invoice') 
     ->when(!empty($brand_id), function ($query) use ($brand_id) {
         $query->whereHas('product', function ($subquery) use ($brand_id) {
             $subquery->where('supplier_id', $brand_id);

@@ -4,13 +4,14 @@ namespace App\Http\Livewire\Admin\Quotations;
 
 use App\Models\Addon;
 use App\Models\Quotation;
+use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use App\Models\Lead;
 
 class ViewQuotations extends Component
 {
-    public $quotations,$lang,$available,$quantity,$product;
+    public $quotations,$lang,$available,$quantity,$product , $customers = [];
     /* render the page */
     public function render()
     {
@@ -33,20 +34,20 @@ class ViewQuotations extends Component
         $this->dispatchBrowserEvent(
             'alert', ['type' => 'success',  'message' => 'Quotation has been deleted!']);
     }
-     public function makeclient()
+     public function makeclient(Quotation $appointment)
     {
-        // $customer = new Customer();
-        // $lead=Lead::where('id', $appointment->lead_id)->first();
-        // $customer->lead_id = $appointment->lead_id;
-        // $customer->name = $lead->name;
-        // $customer->phone = $lead->phone;
-        // $customer->email = $lead->email;
-        // $customer->postcode = $lead->postcode;
-        // $customer->address = $lead->address;
-        // $customer->city = $lead->city;
-        // $customer->save();
+        $customer = new Customer();
+        $lead=Lead::where('id', $appointment->lead_id)->first();
+        $customer->lead_id = $appointment->lead_id;
+        $customer->name = $lead->name;
+        $customer->phone = $lead->phone;
+        $customer->email = $lead->email;
+        $customer->postcode = $lead->postcode;
+        $customer->address = $lead->address;
+        $customer->city = $lead->city;
+        $customer->save();
         // Appointment::where('id', $appointment->id)->update(['customer_status' => 1]);
-        // $this->dispatchBrowserEvent(
-        //     'alert', ['type' => 'success',  'message' => 'Customer has been Created!']);
+        $this->dispatchBrowserEvent(
+            'alert', ['type' => 'success',  'message' => 'Customer has been Created!']);
     }
 }
