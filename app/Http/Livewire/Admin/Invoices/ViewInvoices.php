@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class ViewInvoices extends Component
 {
-    public $invoices,$lang,$available,$quantity,$product,$amount,$paid_amount,$pay,$no,$invoice_id, $p_date, $current_date;
+    public $invoices,$lang,$available,$quantity,$product,$amount,$paid_amount,$pay,$no,$invoice_id, $p_date;
     /* render the page */
     public function render()
     {
@@ -25,8 +25,6 @@ class ViewInvoices extends Component
         {
             abort(404);
         }
-        $this->pay = 'unpaid';
-        $this->current_date = now()->format('Y-m-d');
     }
     /* delete products with foreign key delete restriction */   
     public function delete(Invoice $invoices)
@@ -38,8 +36,6 @@ class ViewInvoices extends Component
 
     public function payment(Invoice $invoices,$no){
         $this->resetpayment();
-        $this->pay = 'unpaid';
-        $this->current_date = now()->format('Y-m-d');
         $this->no=$no;
         $this->invoice_id=$invoices->id;
         if($no==2){
@@ -59,7 +55,6 @@ class ViewInvoices extends Component
     }
 
     public function savepayment(){
-        if ($this->pay == 'paid') {
         if($this->no==2){
             $invoice = Invoice::where('id',$this->invoice_id)->first();
             $rem=$invoice->second_invoice_amount-$invoice->second_invoice_paid;
@@ -69,8 +64,7 @@ class ViewInvoices extends Component
                     'alert', ['type' => 'error',  'message' => 'Payment Amount can not be greater than remaining amount!']);
                 return;
             }
-            // $invoice->second_invoice_paid=$invoice->second_invoice_paid+$this->pay;
-             $invoice->second_invoice_paid=$invoice->second_invoice_amount;
+            $invoice->second_invoice_paid=$invoice->second_invoice_paid+$this->pay;
             $invoice->save();
         }else{
             $invoice = Invoice::where('id',$this->invoice_id)->first();
@@ -81,19 +75,11 @@ class ViewInvoices extends Component
                     'alert', ['type' => 'error',  'message' => 'Payment Amount can not be greater than remaining amount!']);
                 return;
             }
-            $invoice->pay_date = $this->current_date;
-            // $invoice->first_invoice_paid=$invoice->first_invoice_paid+$this->pay;
-            $invoice->first_invoice_paid=$invoice->first_invoice_amount;
+            $invoice->first_invoice_paid=$invoice->first_invoice_paid+$this->pay;
             $invoice->save();
         }
         $this->emit('closemodal');
         $this->dispatchBrowserEvent(
             'alert', ['type' => 'success',  'message' => 'Payment has been saved!']);
-        }else{
-            $this->emit('closemodal');
-            $this->dispatchBrowserEvent(
-                'alert', ['type' => 'error',  'message' => 'Payment has not saved!']);
-        }
-
     }
 }

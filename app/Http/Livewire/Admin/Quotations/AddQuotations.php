@@ -3,13 +3,12 @@
 namespace App\Http\Livewire\Admin\Quotations;
 
 use Carbon\Carbon;
-use App\Models\Lead;
 use App\Models\Addon;
 use App\Models\Product;
 use Livewire\Component;
 use App\Models\Customer;
+use App\Models\Lead;
 use App\Models\Quotation;
-use App\Models\Appointment;
 use App\Models\QuotationDetail;
 use Illuminate\Support\Facades\Auth;
 
@@ -189,7 +188,6 @@ class AddQuotations extends Component
             $quotationDetail->save();
         }
         Lead::where('id', $quotation->lead_id)->update(['quotation_status' => 1]);
-        Appointment::where('lead_id', $quotation->lead_id)->update(['quotation_number' => $quotation->quotation_number]);
         $this->dispatchBrowserEvent(
             'alert', ['type' => 'success','title' => 'Quotation Saved!',  'message' => 'Quotation #'.$quotation->quotation_number.' has been saved..']);
         $this->resetEverything();

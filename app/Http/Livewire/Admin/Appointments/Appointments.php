@@ -81,7 +81,7 @@ class Appointments extends Component
             'start_time'  => 'required',
             'end_time'  => 'required',
             'start_date'  => 'required',
-            // 'quotation_no'  => 'required',
+            'quotation_no'  => 'required',
             'type'  => 'required',
         ]);
         $appointment = $this->appointment;
@@ -150,11 +150,11 @@ class Appointments extends Component
     $this->quotation_no="";
     
     $quotations = Quotation::where('lead_id', $this->lead_id)->first();
-    // if (!$quotations) {
+    if (!$quotations) {
         // Quotation not found for the lead, show an error
-        // $this->addError('lead_id', 'No quotation available for this lead.');
-        // return;
-    // }
+        $this->addError('lead_id', 'No quotation available for this lead.');
+        return;
+    }
     $this->quotation_no =$quotations->quotation_number ;
    
 }
