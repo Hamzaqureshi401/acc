@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\Invoices;
 
 use App\Models\Addon;
 use App\Models\Invoice;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 

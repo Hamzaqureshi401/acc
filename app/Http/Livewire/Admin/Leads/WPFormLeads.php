@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class WPFormLeads extends Component
 {
-    public $leads,$name,$description,$lead,$is_active = true,$lang,$start_time,$end_time,$start_date,$end_date,$lead_id , $relatedAppointment;
+    public $leads,$name,$description,$lead,$is_active = true,$lang,$start_time,$end_time,$start_date,$end_date,$lead_id , $relatedAppointment , $custom_note;
     public $phone,$email,$address,$search="";
     /* render the page */
     public function render()
@@ -104,6 +104,7 @@ class WPFormLeads extends Component
         $this->resetappointmentFields();
         $this->lead_id=$lead->id;
         $this->lead_name=$lead->name;
+        $this->start_date = date('Y-m-d');
         $quotations = Quotation::where('lead_id', $this->lead_id)->first();
         if (!$quotations) {
             // Quotation not found for the lead, show an error
@@ -118,14 +119,15 @@ class WPFormLeads extends Component
             'start_time'  => 'required',
             'end_time'  => 'required',
             'start_date'  => 'required',
-            'quotation_no'  => 'required',
+            //'quotation_no'  => 'required',
         ]);
         $appointment = new Appointment();
         $appointment->lead_id=$this->lead_id;
         $appointment->start_time=$this->start_time;
         $appointment->end_time=$this->end_time;
         $appointment->start_date=$this->start_date;
-        $appointment->quotation_no=$this->quotation_no;
+        $appointment->quotation_no=$this->quotation_no ?: null;
+        $appointment->type=$this->type ?: null;
         $appointment->save();
         $this->emit('closemodal');
         
@@ -154,8 +156,10 @@ class WPFormLeads extends Component
         $this->lead_id = '';
         $this->start_time = '';
         $this->end_time = '';
-        $this->start_date= '';
+        // $this->start_date= '';
         $this->end_date= '';
+        $this->quotation_no= '';
+        $this->type= '';
         $this->resetErrorBag();
     }
 }

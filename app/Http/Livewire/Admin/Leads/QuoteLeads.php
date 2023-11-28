@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class QuoteLeads extends Component
 {
-    public $leads,$name,$description, $type,$lead,$is_active = true,$lang,$start_time,$end_time,$start_date,$end_date,$lead_id;
+    public $leads,$name,$description, $type,$lead,$is_active = true,$lang,$start_time,$end_time,$start_date,$end_date,$lead_id , $custom_note;
     public $phone,$email,$address,$search="";
     /* render the page */
     public function render()
@@ -96,37 +96,50 @@ class QuoteLeads extends Component
         $this->resetappointmentFields();
         $this->lead_id=$lead->id;
         $this->lead_name=$lead->name;
+        $this->start_date = date('Y-m-d');
         $quotations = Quotation::where('lead_id', $this->lead_id)->first();
         if (!$quotations) {
             // Quotation not found for the lead, show an error
-            $this->addError('lead_name', 'No quotation available for this lead. Please First create a Quotation');
+            // $this->addError('lead_name', 'No quotation available for this lead. Please First create a Quotation');
             return;
         }
         $this->quotation_no =$quotations->quotation_number ;
-        
     }
-    public function makeappointment(){
+    public function makeappointment(){ 
         $this->validate([
-            'lead_id'  => 'required',
             'start_time'  => 'required',
             'end_time'  => 'required',
-            'start_date'  => 'required',
-            'quotation_no'  => 'required',
+            // 'start_date'  => 'required',
+            // 'quotation_no'  => 'required',
             'type'  => 'required',
         ]);
         $appointment = new Appointment();
-        $appointment->lead_id = $this->lead_id;
-        $appointment->start_time = $this->start_time;
-        $appointment->end_time = $this->end_time;
-        $appointment->start_date = $this->start_date;
-        $appointment->quotation_no = $this->quotation_no;
-        $appointment->type = $this->type;
+        $appointment->lead_id=$this->lead_id;
+        $appointment->start_time=$this->start_time;
+        $appointment->end_time=$this->end_time;
+        $appointment->start_date= $this->start_date ? : now()->toDateString();
+        $appointment->quotation_no=$this->quotation_no ?: null;
+        $appointment->type=$this->type;
         $appointment->save();
         Lead::where('id', $appointment->lead_id)->update(['appointment_status' => 1]);
         $this->emit('closemodal');
-        $this->resetFields();
+        $lead = Lead::find($this->lead_id);
+        if ($lead) {
+            $lead->update(['appointment_status' => '1']);
+        }
         $this->dispatchBrowserEvent(
-            'alert', ['type' => 'success',  'message' => 'Appointment has been sechduled!']);
+            'alert', ['type' => 'success',  'message' => 'Appointment has been scheduled!']);
+    }
+    public function resetappointmentFields()
+    {
+        $this->lead_id = '';
+        $this->start_time = '';
+        $this->end_time = '';
+        // $this->start_date= '';
+        $this->end_date= '';
+        $this->quotation_no= '';
+        $this->type= '';
+        $this->resetErrorBag();
     }
 
     /* reset lead data */
@@ -139,13 +152,5 @@ class QuoteLeads extends Component
         $this->resetErrorBag();
     }
 
-    public function resetappointmentFields()
-    {
-        $this->lead_id = '';
-        $this->start_time = '';
-        $this->end_time = '';
-        $this->start_date= '';
-        $this->quotation_no= '';
-        $this->resetErrorBag();
-    }
+    
 }

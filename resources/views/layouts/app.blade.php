@@ -18,6 +18,11 @@
 
 
     <link rel="icon" type="image/x-icon" href="{{getFavIcon()}}">
+    <style type="text/css">
+        .btn{
+            margin: 5px;
+        }
+    </style>
     @stack('css')
     @livewireScripts()
     @livewireStyles()

@@ -137,7 +137,7 @@ class Leads extends Component
         $this->data_quotation_no=$appointment->quotation_no;
         $this->data_type=$appointment->type;
     }
-    public function makeappointment(){
+    public function makeappointment(){ 
         $this->validate([
             'start_time'  => 'required',
             'end_time'  => 'required',
@@ -150,7 +150,7 @@ class Leads extends Component
         $appointment->start_time=$this->start_time;
         $appointment->end_time=$this->end_time;
         $appointment->start_date= $this->start_date ? : now()->toDateString();
-        $appointment->quotation_no=$this->quotation_no;
+        $appointment->quotation_no=$this->quotation_no ?: null;
         $appointment->type=$this->type;
         $appointment->save();
         Lead::where('id', $appointment->lead_id)->update(['appointment_status' => 1]);
